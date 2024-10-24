@@ -3,6 +3,8 @@ use dotenv::dotenv;
 use regex::Regex;
 use scraper::{Html, Selector};
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
+use std::process::Command;
 use std::{env, fs};
 use tokio::time::{sleep, Duration};
 
@@ -70,14 +72,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
 
+        // Fetch 2 most recent uploads
         let structured_response: Vec<VideoEntry> = extracted_data
             .iter()
             .map(|entry| VideoEntry::from_raw_data(entry))
+            .take(2)
             .collect();
 
-        println!("Structured Response: {:?}", structured_response.get(0..2));
-
         let mut new_video_ids = Vec::new();
+
+        let episode_json = fs::read_to_string("episode.json")?;
+        let mut episode_data: Value = serde_json::from_str(&episode_json)?;
 
         for video in &structured_response {
             if video.video_id == last_checked_video_id {
