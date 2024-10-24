@@ -1,73 +1,102 @@
 use anyhow::{anyhow, Result};
 use dotenv::dotenv;
 use regex::Regex;
-use reqwest::Client;
-use serde::Deserialize;
+use scraper::{Html, Selector};
+use serde::{Deserialize, Serialize};
 use std::{env, fs};
+use tokio::time::{sleep, Duration};
 
-#[derive(Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 struct PlaylistItemResponse {
-    items: Vec<PlaylistItem>,
+    data: Vec<Vec<String>>,
 }
 
-#[derive(Deserialize)]
-struct PlaylistItem {
-    id: String,
-    snippet: Snippet,
-}
-
-#[derive(Deserialize)]
-struct Snippet {
-    published_at: String,
-}
-
-#[derive(Deserialize)]
-struct NoEmbedResponse {
+#[derive(Serialize, Deserialize, Debug)]
+struct VideoEntry {
     title: String,
+    video_id: String,
+}
+
+impl VideoEntry {
+    fn from_raw_data(data: &[String]) -> Self {
+        let url = &data[0];
+        let video_id_regex = Regex::new(r"watch\?v=([^&]+)").unwrap();
+
+        let video_id = video_id_regex
+            .captures(url)
+            .and_then(|caps| caps.get(1))
+            .map_or(String::new(), |m| m.as_str().to_string());
+
+        let title = data[1].clone();
+
+        VideoEntry {
+            video_id,
+            title,
+        }
+    }
 }
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let _ = initialize_log_directories();
     let _ = dotenv().map_err(|_| anyhow!("Failed to load .env file"));
-    let api_key = env::var("API_KEY").map_err(|_| anyhow!("API_KEY not set"))?;
 
-    let live_services_playlist_id = "PLqOU6DjSKs7wkpl8NK-dplD2o31m1lXFT"; // DCH Live Services
-    let last_checked_video_id = read_last_checked_video_id();
+    let _ = env::var("ANCHOR_EMAIL").map_err(|_| anyhow!("ANCHOR_EMAIL not set"))?;
+    let _ = env::var("ANCHOR_PASSWORD").map_err(|_| anyhow!("ANCHOR_PASSWORD not set"))?;
 
-    let client = Client::new();
-    let url = format!("https://yewtu.be/playlist?list={}", live_services_playlist_id);
+    let live_services_playlist_id = "PLqOU6DjSKs7wkpl8NK-dplD2o31m1lXFT";
 
-    let response: PlaylistItemResponse = client.get(&url).send().await?.json().await?;
+    loop {
+        // Every 4 hours
+        let last_checked_video_id = read_last_checked_video_id();
+        let url = format!(
+            "https://yewtu.be/playlist?list={}",
+            live_services_playlist_id
+        );
 
-    let mut new_video_ids = Vec::new();
+        let response = reqwest::get(&url).await?;
+        let body = response.text().await?;
+        let document = Html::parse_document(&body);
+        let selector = Selector::parse(".video-card-row:not(.flexible)").unwrap();
 
-    for item in &response.items {
-        if item.id == last_checked_video_id {
-            break; // Stop processing after reaching the last checked video
+        let mut extracted_data = Vec::new();
+
+        // Extract data using selector
+        for element in document.select(&selector) {
+            if let Some(a_element) = element.select(&Selector::parse("a").unwrap()).next() {
+                let link = a_element.value().attr("href").unwrap_or("").to_string();
+
+                if let Some(p_element) = a_element.select(&Selector::parse("p").unwrap()).next() {
+                    let title = p_element.text().collect::<Vec<_>>().join(", ");
+                    extracted_data.push(vec![link, title]);
+                }
+            }
         }
-        new_video_ids.push(item.id.clone());
+
+        let structured_response: Vec<VideoEntry> = extracted_data
+            .iter()
+            .map(|entry| VideoEntry::from_raw_data(entry))
+            .collect();
+
+        println!("Structured Response: {:?}", structured_response.get(0..2));
+
+        let mut new_video_ids = Vec::new();
+
+        for video in &structured_response {
+            if video.video_id == last_checked_video_id {
+                break; // Stop processing after reaching the last checked video
+            }
+            new_video_ids.push(video.video_id.clone());
+        }
+
+        if let Some(most_recent) = structured_response.first() {
+            save_last_checked_video_id(&most_recent.video_id);
+            // add new video id to episode.json
+        }
+
+        // Sleep for 4 hours (14400 seconds)
+        sleep(Duration::from_secs(4 * 3600)).await;
     }
-
-    for video_id in new_video_ids.iter().rev() {
-        let noembed_url = format!("https://www.youtube.com/watch?v={}", video_id);
-        let noembed_response: NoEmbedResponse = client
-            .get("https://noemed.com/embed")
-            .query(&[("format", "json"), ("url", &noembed_url)])
-            .send()
-            .await?
-            .json()
-            .await?;
-
-        let processed_title = process_title(&noembed_response.title);
-        println!("{}", processed_title);
-    }
-
-    if let Some(most_recent) = response.items.first() {
-        save_last_checked_video_id(&most_recent.id);
-    }
-
-    Ok(())
 }
 
 fn read_last_checked_video_id() -> String {
