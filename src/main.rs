@@ -29,10 +29,7 @@ impl VideoEntry {
 
         let title = data[1].clone();
 
-        VideoEntry {
-            video_id,
-            title,
-        }
+        VideoEntry { title, video_id }
     }
 }
 
@@ -47,7 +44,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let live_services_playlist_id = "PLqOU6DjSKs7wkpl8NK-dplD2o31m1lXFT";
 
     loop {
-        // Every 4 hours
+        // Every 2 hours
         let last_checked_video_id = read_last_checked_video_id();
         let url = format!(
             "https://yewtu.be/playlist?list={}",
@@ -94,8 +91,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             // add new video id to episode.json
         }
 
-        // Sleep for 4 hours (14400 seconds)
-        sleep(Duration::from_secs(4 * 3600)).await;
+        // Sleep for 2 hours (7200 seconds)
+        sleep(Duration::from_secs(2 * 3600)).await;
     }
 }
 
