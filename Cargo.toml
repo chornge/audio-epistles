@@ -1,6 +1,6 @@
 [package]
-name = "audio_apostle"
-version = "0.0.2"
+name = "audio_epistles"
+version = "0.0.3"
 edition = "2021"
 authors = ["Christian Mbaba"]
 
