@@ -124,3 +124,21 @@ fn initialize_log_directories() -> std::io::Result<()> {
 
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_video_entry_from_raw_data() {
+        let raw_data = vec![
+            String::from("/watch?v=mVda8IUcKEQ&list=PLID"),
+            String::from("Sample Video Title"),
+        ];
+
+        let video_entry = VideoEntry::from_raw_data(&raw_data);
+
+        assert_eq!(video_entry.video_id, "mVda8IUcKEQ");
+        assert_eq!(video_entry.title, "Sample Video Title");
+    }
+}
