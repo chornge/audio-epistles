@@ -93,7 +93,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         // Switch to main branch (before publishing)
         let _ = Command::new("git")
-            .args(&["checkout", "main"])
+            .args(["checkout", "main"])
             .spawn()?
             .wait()?;
 
@@ -104,15 +104,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             fs::write("episode.json", &updated_json)?;
 
             let _ = Command::new("git")
-                .args(&["add", "episode.json"])
+                .args(["add", "episode.json"])
                 .spawn()?
                 .wait()?;
             let _ = Command::new("git")
-                .args(&["commit", "-m", "Upload new episode"])
+                .args(["commit", "-m", "Upload new episode"])
                 .spawn()?
                 .wait()?;
-            let _ = Command::new("git").args(&["push"]).spawn()?.wait()?;
-            save_last_checked_video_id(&new_video_id);
+            let _ = Command::new("git").args(["push"]).spawn()?.wait()?;
+            save_last_checked_video_id(new_video_id);
         }
 
         // Sleep for 2 hours (7200 seconds) - if not running crontab
