@@ -1,5 +1,10 @@
-on: push
 name: AudioApostle
+
+on: 
+    push:
+        paths:
+            - episode.json
+        branches: [main]
 
 env:
   # RUSTFLAGS: "-Dwarnings" # Make sure CI fails on all warnings, including Clippy lints
@@ -16,4 +21,20 @@ jobs:
       
       - name: Run tests
         run: cargo test
+
+  upload_episode:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+        
+        - name: Upload to Anchor.fm
+          uses: Schroedinger-Hat/youtube-to-anchorfm@v2.5.0
+          env:
+            ANCHOR_LOGIN: true
+            ANCHOR_EMAIL: ${{ secrets.ANCHOR_EMAIL }}
+            ANCHOR_PASSWORD: ${{ secrets.ANCHOR_PASSWORD }}
+            EPISODE_PATH: /github/workspace
+            LOAD_THUMBNAIL: true
+            SAVE_AS_DRAFT: true
+            URL_IN_DESCRIPTION: true
       
