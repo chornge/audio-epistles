@@ -33,7 +33,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c042108f3ed77fd83760a5fd79b53be043192bb3b9dba91d8c574c0ada7850c8"
 
 [[package]]
-name = "audio_apostle"
+name = "audio_epistles"
 version = "0.0.2"
 dependencies = [
  "anyhow",
