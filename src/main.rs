@@ -91,12 +91,31 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             new_video_ids.push(video.video_id.clone());
         }
 
-        if let Some(most_recent) = structured_response.first() {
-            save_last_checked_video_id(&most_recent.video_id);
-            // add new video id to episode.json
+        // Switch to main branch (before publishing)
+        let _ = Command::new("git")
+            .args(&["checkout", "main"])
+            .spawn()?
+            .wait()?;
+
+        for new_video_id in new_video_ids.iter().rev() {
+            episode_data["id"] = Value::String(new_video_id.clone());
+
+            let updated_json = serde_json::to_string(&episode_data)?;
+            fs::write("episode.json", &updated_json)?;
+
+            let _ = Command::new("git")
+                .args(&["add", "episode.json"])
+                .spawn()?
+                .wait()?;
+            let _ = Command::new("git")
+                .args(&["commit", "-m", "Upload new episode"])
+                .spawn()?
+                .wait()?;
+            let _ = Command::new("git").args(&["push"]).spawn()?.wait()?;
+            save_last_checked_video_id(&new_video_id);
         }
 
-        // Sleep for 2 hours (7200 seconds)
+        // Sleep for 2 hours (7200 seconds) - if not running crontab
         sleep(Duration::from_secs(2 * 3600)).await;
     }
 }
