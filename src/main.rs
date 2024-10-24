@@ -107,18 +107,6 @@ fn save_last_checked_video_id(video_id: &str) {
     fs::write("last_checked_video_id.txt", video_id).unwrap();
 }
 
-fn process_title(title: &str) -> String {
-    // let regex = Regex::new(r"^(.*?)(?=\s+\|)?").unwrap();
-    let regex = Regex::new(r"^(.*?)(?=\s+\|)?:?").unwrap();
-    if let Some(captures) = regex.captures(title) {
-        if let Some(matched) = captures.get(1) {
-            return matched.as_str().to_string();
-        }
-    }
-
-    title.to_string() // Return original title if no match
-}
-
 fn initialize_log_directories() -> std::io::Result<()> {
     let months = [
         "1-jan", "2-feb", "3-mar", "4-apr", "5-may", "6-jun", "7-jul", "8-aug", "9-sep", "10-oct",
