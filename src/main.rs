@@ -108,7 +108,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .spawn()?
                 .wait()?;
             let _ = Command::new("git")
-                .args(["commit", "-m", "Upload new episode"])
+                .args(["commit", "-m", "Update episode ID for publishing"])
                 .spawn()?
                 .wait()?;
             let _ = Command::new("git").args(["push"]).spawn()?.wait()?;

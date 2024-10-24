@@ -20,6 +20,8 @@ jobs:
           uses: Schroedinger-Hat/youtube-to-anchorfm@v2.5.0
           env:
             ANCHOR_LOGIN: false
+            ANCHOR_EMAIL: ${{ secrets.SPOTIFY_EMAIL }}
+            ANCHOR_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD }}
             SPOTIFY_EMAIL: ${{ secrets.SPOTIFY_EMAIL }}
             SPOTIFY_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD }}
             EPISODE_PATH: /github/workspace
