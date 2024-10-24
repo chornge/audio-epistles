@@ -34,7 +34,7 @@ checksum = "c042108f3ed77fd83760a5fd79b53be043192bb3b9dba91d8c574c0ada7850c8"
 
 [[package]]
 name = "audio_epistles"
-version = "0.0.2"
+version = "0.0.3"
 dependencies = [
  "anyhow",
  "dotenv",
