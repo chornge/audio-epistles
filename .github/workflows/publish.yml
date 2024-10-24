@@ -16,12 +16,12 @@ jobs:
     steps:
         - uses: actions/checkout@v2
         
-        - name: Upload to Anchor.fm
+        - name: Upload to Spotify
           uses: Schroedinger-Hat/youtube-to-anchorfm@v2.5.0
           env:
             ANCHOR_LOGIN: true
-            ANCHOR_EMAIL: ${{ secrets.ANCHOR_EMAIL }}
-            ANCHOR_PASSWORD: ${{ secrets.ANCHOR_PASSWORD }}
+            ANCHOR_EMAIL: ${{ secrets.SPOTIFY_EMAIL }}
+            ANCHOR_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD }}
             EPISODE_PATH: /github/workspace
             EPISODE_FILE: episode.json
             LOAD_THUMBNAIL: true

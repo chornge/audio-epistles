@@ -40,8 +40,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let _ = initialize_log_directories();
     let _ = dotenv().map_err(|_| anyhow!("Failed to load .env file"));
 
-    let _ = env::var("ANCHOR_EMAIL").map_err(|_| anyhow!("ANCHOR_EMAIL not set"))?;
-    let _ = env::var("ANCHOR_PASSWORD").map_err(|_| anyhow!("ANCHOR_PASSWORD not set"))?;
+    let _ = env::var("SPOTIFY_EMAIL").map_err(|_| anyhow!("SPOTIFY_EMAIL not set"))?;
+    let _ = env::var("SPOTIFY_PASSWORD").map_err(|_| anyhow!("SPOTIFY_PASSWORD not set"))?;
 
     let live_services_playlist_id = "PLqOU6DjSKs7wkpl8NK-dplD2o31m1lXFT";
 
