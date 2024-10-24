@@ -1,5 +1,6 @@
+name: Build
+
 on: push
-name: AudioApostle
 
 env:
   # RUSTFLAGS: "-Dwarnings" # Make sure CI fails on all warnings, including Clippy lints
@@ -14,6 +15,6 @@ jobs:
       - name: Run Linter
         run: cargo clippy --all-targets --all-features
       
-      - name: Run tests
+      - name: Run Tests
         run: cargo test
       
