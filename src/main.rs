@@ -75,7 +75,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         // Fetch 2 most recent uploads
         let most_recent_uploads: Vec<VideoEntry> = extracted_data
             .iter()
-            .map(|entry| VideoEntry::from_raw_data(entry))
+            .map(VideoEntry::from_raw_data)
             .take(2)
             .collect();
 
@@ -119,7 +119,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
 
         // Loop every hour
-        sleep(Duration::from_secs(1 * 60 * 60)).await;
+        sleep(Duration::from_secs(60 * 60)).await;
     }
 }
 
