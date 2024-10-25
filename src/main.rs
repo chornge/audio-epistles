@@ -112,7 +112,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .wait()?;
             let _ = Command::new("git").args(["push"]).spawn()?.wait()?;
 
-            save_last_checked_video(&new_video.id);
             log_event(&format!(
                 "Draft episode: {} - {} for approval",
                 new_video.id, new_video.title
@@ -125,11 +124,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 fn last_checked_video() -> String {
-    fs::read_to_string("last_checked_video.txt").unwrap_or_default()
-}
-
-fn save_last_checked_video(video_id: &str) {
-    fs::write("last_checked_video.txt", video_id).unwrap();
+    let episode_json = fs::read_to_string("episode.json");
+    let episode_data: Value =
+        serde_json::from_str(&episode_json.unwrap()).expect("episode.json is blank");
+    episode_data["id"].to_string()
 }
 
 fn parse_title(title: &str) -> String {
