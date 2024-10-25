@@ -49,7 +49,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     loop {
         // Every 2 hours
-        let last_checked_video_id = read_last_checked_video_id();
         let url = format!(
             "https://yewtu.be/playlist?list={}",
             live_services_playlist_id
@@ -83,7 +82,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let mut new_videos = Vec::new();
         for video in &structured_response {
-            if video.video_id == last_checked_video_id {
+            if video.video_id == last_checked_video() {
                 break; // Stop processing after reaching the last checked video
             }
             new_videos.push(video.clone());
@@ -113,7 +112,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .wait()?;
             let _ = Command::new("git").args(["push"]).spawn()?.wait()?;
 
-            save_last_checked_video_id(&new_video.id);
+            save_last_checked_video(&new_video.id);
             log_event(&format!(
                 "Draft episode: {} - {} for approval",
                 new_video.id, new_video.title
@@ -125,12 +124,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 }
 
-fn read_last_checked_video_id() -> String {
-    fs::read_to_string("last_checked_video_id.txt").unwrap_or_default()
+fn last_checked_video() -> String {
+    fs::read_to_string("last_checked_video.txt").unwrap_or_default()
 }
 
-fn save_last_checked_video_id(video_id: &str) {
-    fs::write("last_checked_video_id.txt", video_id).unwrap();
+fn save_last_checked_video(video_id: &str) {
+    fs::write("last_checked_video.txt", video_id).unwrap();
 }
 
 fn parse_title(title: &str) -> String {
