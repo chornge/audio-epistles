@@ -172,7 +172,7 @@ mod tests {
 
         let video_entry = VideoEntry::from_raw_data(&raw_data);
 
-        assert_eq!(video_entry.video_id, "mVda8IUcKEQ");
+        assert_eq!(video_entry.id, "mVda8IUcKEQ");
         assert_eq!(video_entry.title, "Sample Video Title");
     }
 }
