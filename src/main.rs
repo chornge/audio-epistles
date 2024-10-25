@@ -22,6 +22,7 @@ struct VideoEntry {
     title: String,
 }
 
+#[allow(clippy::ptr_arg)]
 impl VideoEntry {
     fn from_raw_data(data: &Vec<String>) -> Self {
         let url = &data[0];
