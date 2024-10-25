@@ -174,4 +174,22 @@ mod tests {
         assert_eq!(video_entry.id, "mVda8IUcKEQ");
         assert_eq!(video_entry.title, "Sample Video Title");
     }
+
+    #[test]
+    fn test_parse_title() {
+        let title_with_date = "The Spirit of Excellence | Pastor Bayo Fadugba | Celebration Service September 8, 2024";
+        let title_without_date = "Unplugged Service | Celebration Service";
+
+        assert_eq!(
+            parse_title(title_with_date),
+            "The Spirit of Excellence | Pastor Bayo Fadugba"
+        );
+        assert_eq!(
+            parse_title(title_without_date),
+            "Unplugged Service | Celebration Service"
+        );
+
+        let title_no_match = "This title has no date";
+        assert_eq!(parse_title(title_no_match), "This title has no date");
+    }
 }
