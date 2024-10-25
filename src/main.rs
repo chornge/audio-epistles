@@ -9,6 +9,7 @@ use std::{env, fs};
 use tokio::time::{sleep, Duration};
 
 mod log;
+use crate::log::log_event;
 
 #[derive(Debug, Deserialize, Serialize)]
 struct PlaylistItemResponse {
@@ -98,7 +99,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .wait()?;
 
             episode_data["id"] = Value::String(new_video.id.clone());
-
             let updated_json = serde_json::to_string(&episode_data)?;
             fs::write("episode.json", &updated_json)?;
 
@@ -119,8 +119,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             ))?;
         }
 
-        // Loop every 2 hours (replace with crontab)
-        sleep(Duration::from_secs(2 * 60 * 60)).await;
+        // Loop every hour
+        sleep(Duration::from_secs(1 * 60 * 60)).await;
     }
 }
 
