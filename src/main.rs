@@ -8,30 +8,34 @@ use std::process::Command;
 use std::{env, fs};
 use tokio::time::{sleep, Duration};
 
-#[derive(Serialize, Deserialize, Debug)]
+mod log;
+use crate::log::log_event;
+
+#[derive(Debug, Deserialize, Serialize)]
 struct PlaylistItemResponse {
     data: Vec<Vec<String>>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 struct VideoEntry {
+    id: String,
     title: String,
-    video_id: String,
 }
 
+#[allow(clippy::ptr_arg)]
 impl VideoEntry {
-    fn from_raw_data(data: &[String]) -> Self {
+    fn from_raw_data(data: &Vec<String>) -> Self {
         let url = &data[0];
         let video_id_regex = Regex::new(r"watch\?v=([^&]+)").unwrap();
 
-        let video_id = video_id_regex
+        let id = video_id_regex
             .captures(url)
             .and_then(|caps| caps.get(1))
             .map_or(String::new(), |m| m.as_str().to_string());
 
-        let title = data[1].clone();
+        let title = parse_title(&data[1]);
 
-        VideoEntry { title, video_id }
+        VideoEntry { id, title }
     }
 }
 
@@ -46,8 +50,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let live_services_playlist_id = "PLqOU6DjSKs7wkpl8NK-dplD2o31m1lXFT";
 
     loop {
-        // Every 2 hours
-        let last_checked_video_id = read_last_checked_video_id();
         let url = format!(
             "https://yewtu.be/playlist?list={}",
             live_services_playlist_id
@@ -56,11 +58,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let response = reqwest::get(&url).await?;
         let body = response.text().await?;
         let document = Html::parse_document(&body);
-        let selector = Selector::parse(".video-card-row:not(.flexible)").unwrap();
 
+        // Extract data using css selector
         let mut extracted_data = Vec::new();
-
-        // Extract data using selector
+        let selector = Selector::parse(".video-card-row:not(.flexible)").unwrap();
         for element in document.select(&selector) {
             if let Some(a_element) = element.select(&Selector::parse("a").unwrap()).next() {
                 let link = a_element.value().attr("href").unwrap_or("").to_string();
@@ -73,33 +74,32 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
 
         // Fetch 2 most recent uploads
-        let structured_response: Vec<VideoEntry> = extracted_data
+        let most_recent_uploads: Vec<VideoEntry> = extracted_data
             .iter()
-            .map(|entry| VideoEntry::from_raw_data(entry))
+            .map(VideoEntry::from_raw_data)
             .take(2)
             .collect();
 
-        let mut new_video_ids = Vec::new();
+        let mut new_videos = Vec::new();
+        for video in &most_recent_uploads {
+            if video.id == last_checked_video() {
+                break; // Stop processing after reaching the last checked video
+            }
+            new_videos.push(video);
+        }
 
         let episode_json = fs::read_to_string("episode.json")?;
         let mut episode_data: Value = serde_json::from_str(&episode_json)?;
 
-        for video in &structured_response {
-            if video.video_id == last_checked_video_id {
-                break; // Stop processing after reaching the last checked video
-            }
-            new_video_ids.push(video.video_id.clone());
-        }
+        // Publish in reverse order (newer uploads get published last)
+        for new_video in new_videos.iter().rev() {
+            // Publish from main branch
+            let _ = Command::new("git")
+                .args(["checkout", "main"])
+                .spawn()?
+                .wait()?;
 
-        // Switch to main branch (before publishing)
-        let _ = Command::new("git")
-            .args(["checkout", "main"])
-            .spawn()?
-            .wait()?;
-
-        for new_video_id in new_video_ids.iter().rev() {
-            episode_data["id"] = Value::String(new_video_id.clone());
-
+            episode_data["id"] = Value::String(new_video.id.clone());
             let updated_json = serde_json::to_string(&episode_data)?;
             fs::write("episode.json", &updated_json)?;
 
@@ -112,20 +112,35 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .spawn()?
                 .wait()?;
             let _ = Command::new("git").args(["push"]).spawn()?.wait()?;
-            save_last_checked_video_id(new_video_id);
+
+            log_event(&format!(
+                "Draft episode: {} - {} for approval",
+                new_video.id, new_video.title
+            ))?;
         }
 
-        // Sleep for 2 hours (7200 seconds) - if not running crontab
-        sleep(Duration::from_secs(2 * 3600)).await;
+        // Loop every hour
+        sleep(Duration::from_secs(60 * 60)).await;
     }
 }
 
-fn read_last_checked_video_id() -> String {
-    fs::read_to_string("last_checked_video_id.txt").unwrap_or_default()
+fn last_checked_video() -> String {
+    let episode_json = fs::read_to_string("episode.json");
+    let episode_data: Value =
+        serde_json::from_str(&episode_json.unwrap()).expect("episode.json is blank");
+    episode_data["id"].to_string()
 }
 
-fn save_last_checked_video_id(video_id: &str) {
-    fs::write("last_checked_video_id.txt", video_id).unwrap();
+fn parse_title(title: &str) -> String {
+    let regex = Regex::new(r"^(.*?)(?: \| [^|]* \d{1,2}, \d{4})?$").unwrap();
+
+    if let Some(captures) = regex.captures(title) {
+        if let Some(matched) = captures.get(1) {
+            return matched.as_str().to_string();
+        }
+    }
+
+    title.to_string() // Return original title if no match
 }
 
 fn initialize_log_directories() -> std::io::Result<()> {
@@ -157,7 +172,25 @@ mod tests {
 
         let video_entry = VideoEntry::from_raw_data(&raw_data);
 
-        assert_eq!(video_entry.video_id, "mVda8IUcKEQ");
+        assert_eq!(video_entry.id, "mVda8IUcKEQ");
         assert_eq!(video_entry.title, "Sample Video Title");
+    }
+
+    #[test]
+    fn test_parse_title() {
+        let title_with_date = "The Spirit of Excellence | Pastor Bayo Fadugba | Celebration Service September 8, 2024";
+        let title_without_date = "Unplugged Service | Celebration Service";
+
+        assert_eq!(
+            parse_title(title_with_date),
+            "The Spirit of Excellence | Pastor Bayo Fadugba"
+        );
+        assert_eq!(
+            parse_title(title_without_date),
+            "Unplugged Service | Celebration Service"
+        );
+
+        let title_no_match = "This title has no date";
+        assert_eq!(parse_title(title_no_match), "This title has no date");
     }
 }

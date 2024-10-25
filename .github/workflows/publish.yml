@@ -19,9 +19,9 @@ jobs:
         - name: Upload to Spotify
           uses: Schroedinger-Hat/youtube-to-anchorfm@v2.5.0
           env:
-            ANCHOR_LOGIN: false
-            ANCHOR_EMAIL: ${{ secrets.SPOTIFY_EMAIL }}
-            ANCHOR_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD }}
+            ANCHOR_LOGIN: true
+            ANCHOR_EMAIL: ${{ secrets.ANCHOR_EMAIL }}
+            ANCHOR_PASSWORD: ${{ secrets.ANCHOR_PASSWORD }}
             SPOTIFY_EMAIL: ${{ secrets.SPOTIFY_EMAIL }}
             SPOTIFY_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD }}
             EPISODE_PATH: /github/workspace
