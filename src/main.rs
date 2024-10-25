@@ -32,7 +32,7 @@ impl VideoEntry {
             .and_then(|caps| caps.get(1))
             .map_or(String::new(), |m| m.as_str().to_string());
 
-        let title = parse_title([1].clone());
+        let title = parse_title(&data[1]);
 
         VideoEntry { id, title }
     }
@@ -84,7 +84,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             if video.id == last_checked_video() {
                 break; // Stop processing after reaching the last checked video
             }
-            new_videos.push(video.clone());
+            new_videos.push(video);
         }
 
         let episode_json = fs::read_to_string("episode.json")?;
@@ -131,7 +131,8 @@ fn last_checked_video() -> String {
 }
 
 fn parse_title(title: &str) -> String {
-    let regex = Regex::new(r"^(.*?)(?=\s+\|)?").unwrap();
+    let regex = Regex::new(r"^(.*?)(?: \| [^|]* \d{1,2}, \d{4})?$").unwrap();
+
     if let Some(captures) = regex.captures(title) {
         if let Some(matched) = captures.get(1) {
             return matched.as_str().to_string();
