@@ -20,18 +20,18 @@ struct VideoEntry {
 }
 
 impl VideoEntry {
-    fn from_raw_data(data: &[String]) -> Self {
+    fn from_raw_data(data: &Vec<String>) -> Self {
         let url = &data[0];
         let video_id_regex = Regex::new(r"watch\?v=([^&]+)").unwrap();
 
-        let video_id = video_id_regex
+        let id = video_id_regex
             .captures(url)
             .and_then(|caps| caps.get(1))
             .map_or(String::new(), |m| m.as_str().to_string());
 
-        let title = data[1].clone();
+        let title = parse_title([1].clone());
 
-        VideoEntry { title, video_id }
+        VideoEntry { id, title }
     }
 }
 
@@ -79,26 +79,24 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .take(2)
             .collect();
 
-        let mut new_video_ids = Vec::new();
-
-        let episode_json = fs::read_to_string("episode.json")?;
-        let mut episode_data: Value = serde_json::from_str(&episode_json)?;
-
+        let mut new_videos = Vec::new();
         for video in &structured_response {
             if video.video_id == last_checked_video_id {
                 break; // Stop processing after reaching the last checked video
             }
-            new_video_ids.push(video.video_id.clone());
+            new_videos.push(video.clone());
         }
 
-        // Switch to main branch (before publishing)
-        let _ = Command::new("git")
-            .args(["checkout", "main"])
-            .spawn()?
-            .wait()?;
+        let episode_json = fs::read_to_string("episode.json")?;
+        let mut episode_data: Value = serde_json::from_str(&episode_json)?;
+        for new_video in new_videos.iter().rev() {
+            // Publish from main branch
+            let _ = Command::new("git")
+                .args(["checkout", "main"])
+                .spawn()?
+                .wait()?;
 
-        for new_video_id in new_video_ids.iter().rev() {
-            episode_data["id"] = Value::String(new_video_id.clone());
+            episode_data["id"] = Value::String(new_video.id.clone());
 
             let updated_json = serde_json::to_string(&episode_data)?;
             fs::write("episode.json", &updated_json)?;
@@ -115,8 +113,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             save_last_checked_video_id(new_video_id);
         }
 
-        // Sleep for 2 hours (7200 seconds) - if not running crontab
-        sleep(Duration::from_secs(2 * 3600)).await;
+        // Loop every 2 hours (replace with crontab)
+        sleep(Duration::from_secs(2 * 60 * 60)).await;
     }
 }
 
@@ -126,6 +124,17 @@ fn read_last_checked_video_id() -> String {
 
 fn save_last_checked_video_id(video_id: &str) {
     fs::write("last_checked_video_id.txt", video_id).unwrap();
+}
+
+fn parse_title(title: &str) -> String {
+    let regex = Regex::new(r"^(.*?)(?=\s+\|)?").unwrap();
+    if let Some(captures) = regex.captures(title) {
+        if let Some(matched) = captures.get(1) {
+            return matched.as_str().to_string();
+        }
+    }
+
+    title.to_string() // Return original title if no match
 }
 
 fn initialize_log_directories() -> std::io::Result<()> {
