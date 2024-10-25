@@ -48,7 +48,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let live_services_playlist_id = "PLqOU6DjSKs7wkpl8NK-dplD2o31m1lXFT";
 
     loop {
-        // Every 2 hours
         let url = format!(
             "https://yewtu.be/playlist?list={}",
             live_services_playlist_id
@@ -57,11 +56,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let response = reqwest::get(&url).await?;
         let body = response.text().await?;
         let document = Html::parse_document(&body);
-        let selector = Selector::parse(".video-card-row:not(.flexible)").unwrap();
 
+        // Extract data using css selector
         let mut extracted_data = Vec::new();
-
-        // Extract data using selector
+        let selector = Selector::parse(".video-card-row:not(.flexible)").unwrap();
         for element in document.select(&selector) {
             if let Some(a_element) = element.select(&Selector::parse("a").unwrap()).next() {
                 let link = a_element.value().attr("href").unwrap_or("").to_string();
@@ -74,15 +72,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
 
         // Fetch 2 most recent uploads
-        let structured_response: Vec<VideoEntry> = extracted_data
+        let most_recent_uploads: Vec<VideoEntry> = extracted_data
             .iter()
             .map(|entry| VideoEntry::from_raw_data(entry))
             .take(2)
             .collect();
 
         let mut new_videos = Vec::new();
-        for video in &structured_response {
-            if video.video_id == last_checked_video() {
+        for video in &most_recent_uploads {
+            if video.id == last_checked_video() {
                 break; // Stop processing after reaching the last checked video
             }
             new_videos.push(video.clone());
@@ -90,6 +88,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let episode_json = fs::read_to_string("episode.json")?;
         let mut episode_data: Value = serde_json::from_str(&episode_json)?;
+
+        // Publish in reverse order (newer uploads get published last)
         for new_video in new_videos.iter().rev() {
             // Publish from main branch
             let _ = Command::new("git")
