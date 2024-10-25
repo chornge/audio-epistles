@@ -8,15 +8,17 @@ use std::process::Command;
 use std::{env, fs};
 use tokio::time::{sleep, Duration};
 
-#[derive(Serialize, Deserialize, Debug)]
+mod log;
+
+#[derive(Debug, Deserialize, Serialize)]
 struct PlaylistItemResponse {
     data: Vec<Vec<String>>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 struct VideoEntry {
+    id: String,
     title: String,
-    video_id: String,
 }
 
 impl VideoEntry {
@@ -110,7 +112,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .spawn()?
                 .wait()?;
             let _ = Command::new("git").args(["push"]).spawn()?.wait()?;
-            save_last_checked_video_id(new_video_id);
+
+            save_last_checked_video_id(&new_video.id);
+            log_event(&format!(
+                "Draft episode: {} - {} for approval",
+                new_video.id, new_video.title
+            ))?;
         }
 
         // Loop every 2 hours (replace with crontab)
