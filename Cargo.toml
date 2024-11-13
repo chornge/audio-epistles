@@ -2,7 +2,10 @@
 name = "audio_epistles"
 version = "1.0.1"
 edition = "2021"
-authors = ["Christian Mbaba"]
+authors = [
+    "Christian Mbaba",
+    "Dominion Chapel Houston"
+]
 
 [dependencies]
 anyhow = "1.0"
