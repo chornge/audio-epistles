@@ -46,11 +46,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let _ = env::var("ANCHOR_EMAIL").map_err(|_| anyhow!("ANCHOR_EMAIL not set"))?;
     let _ = env::var("ANCHOR_PASSWORD").map_err(|_| anyhow!("ANCHOR_PASSWORD not set"))?;
-    
+
     let _ = env::var("SPOTIFY_EMAIL").map_err(|_| anyhow!("SPOTIFY_EMAIL not set"))?;
     let _ = env::var("SPOTIFY_PASSWORD").map_err(|_| anyhow!("SPOTIFY_PASSWORD not set"))?;
 
-    let live_services_playlist_id = "PLqOU6DjSKs7wkpl8NK-dplD2o31m1lXFT";
+    let live_services_playlist_id = env::var("LIVE_SERVICES_PLAYLIST_ID")
+        .map_err(|_| anyhow!("LIVE_SERVICES_PLAYLIST_ID not set"))?;
 
     loop {
         let url = format!(
