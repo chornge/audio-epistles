@@ -1,6 +1,6 @@
 [package]
 name = "audio_epistles"
-version = "1.0.2"
+version = "1.0.3"
 edition = "2021"
 authors = [
     "Christian Mbaba",
@@ -12,7 +12,7 @@ anyhow = "1.0"
 chrono = "0.4"
 dotenv = "0.15"
 regex = "1.5"
-reqwest = { version = "0.11", features = ["json"] }
+reqwest = { version = "0.12.9", features = ["json"] }
 scraper = "0.12"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
