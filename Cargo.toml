@@ -1,10 +1,10 @@
 [package]
 name = "audio_epistles"
-version = "1.0.3"
+version = "1.0.4"
 edition = "2021"
 authors = [
-    "Christian Mbaba",
-    "Dominion Chapel Houston"
+    "Christian Mbaba <christianmbaba@live.com>",
+    "Dominion Chapel Houston <media@dominionchapel.org>"
 ]
 
 [dependencies]
