@@ -1,19 +1,17 @@
 [package]
 name = "audio_epistles"
-version = "1.0.3"
+version = "1.0.4"
 edition = "2021"
 authors = [
-    "Christian Mbaba",
-    "Dominion Chapel Houston"
+    "Christian Mbaba <christianmbaba@live.com>",
+    "Dominion Chapel Houston <media@dominionchapel.org>"
 ]
 
 [dependencies]
-anyhow = "1.0"
-chrono = "0.4"
-dotenv = "0.15"
-regex = "1.5"
-reqwest = { version = "0.12.9", features = ["json"] }
-scraper = "0.12"
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-tokio = { version = "1.28", features = ["full"] }
+anyhow = "1.0.98"
+regex = "1.11.1"
+reqwest = { version = "0.12.15", features = ["json"] }
+scraper = "0.23.1"
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
+tokio = { version = "1.45.0", features = ["full"] }
