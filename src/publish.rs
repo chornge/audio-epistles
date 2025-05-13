@@ -1,47 +1,44 @@
 use anyhow::Result;
-use serde_json::Value;
+use serde_json::json;
 use std::fs;
-use std::process::Command;
+use std::process::{Command, Stdio};
 
-use crate::VideoEntry;
-
-pub async fn process_new_videos(new_videos: Vec<VideoEntry>) -> Result<()> {
-    let episode_json = fs::read_to_string("episode.json")?;
-    let mut episode_data: Value = serde_json::from_str(&episode_json)?;
-
-    // Publish in reverse order (newer uploads get published last)
-    for new_video in new_videos.iter().rev() {
-        publish_video(new_video, &mut episode_data).await?;
-    }
+pub async fn process_video(new_video: String) -> Result<()> {
+    publish(&new_video).await?;
     Ok(())
 }
 
-pub async fn publish_video(new_video: &VideoEntry, episode_data: &mut Value) -> Result<()> {
-    // Checkout main branch
-    let _ = Command::new("git")
-        .args(["checkout", "main"])
-        .spawn()?
-        .wait()?;
+#[allow(unused_variables)]
+pub async fn publish(video_json: &str) -> Result<()> {
+    // Read the existing JSON file
+    let file_path = "video_id.json";
+    let mut video_data = if let Ok(contents) = fs::read_to_string(file_path) {
+        serde_json::from_str(&contents).unwrap_or_else(|_| json!({ "id": "" }))
+    } else {
+        json!({ "id": "" }) // Default if file doesn't exist
+    };
 
-    // Write new video ID to episode.json
-    episode_data["id"] = Value::String(new_video.id.clone());
-    let updated_json = serde_json::to_string(&episode_data)?;
-    fs::write("episode.json", &updated_json)?;
+    // Update the JSON with the new video ID
+    video_data["id"] = json!(video_json);
 
-    // Add changes
-    let _ = Command::new("git")
-        .args(["add", "episode.json"])
-        .spawn()?
-        .wait()?;
+    // Write the updated JSON back to video_id.json
+    fs::write(file_path, video_data.to_string())?;
+    println!("Update video_id.json with: {}", video_json);
 
-    // Commit changes
-    let _ = Command::new("git")
-        .args(["commit", "-m", "Update episode ID for publishing"])
-        .spawn()?
-        .wait()?;
+    // Publish to Spotify
+    println!("Processing {}...", video_json);
+    let output = Command::new("npm")
+        .arg("start")
+        .current_dir("schroedinger_hat")
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .output()?;
 
-    // Push changes
-    let _ = Command::new("git").args(["push"]).spawn()?.wait()?;
+    if output.status.success() {
+        println!("Publish to Spotify succeeded!");
+    } else {
+        eprintln!("Publish to Spotify failed!");
+    }
 
     Ok(())
 }
