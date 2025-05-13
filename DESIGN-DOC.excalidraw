@@ -45,10 +45,10 @@
     {
       "id": "Fh7JmDlLx99ahqkuWv845",
       "type": "arrow",
-      "x": -147.8849064890348,
-      "y": -44.06806478936134,
-      "width": 353.16778209154455,
-      "height": 0.05921513166361336,
+      "x": -147.87196608228967,
+      "y": -42.116529418597516,
+      "width": 353.1548416847994,
+      "height": 1.4923792128399214,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -64,8 +64,8 @@
         "type": 2
       },
       "seed": 1331037039,
-      "version": 1610,
-      "versionNonce": 2069060176,
+      "version": 1616,
+      "versionNonce": 207362468,
       "isDeleted": false,
       "boundElements": [
         {
@@ -73,7 +73,7 @@
           "id": "1zGmr21Smo3YtjnfFlJGp"
         }
       ],
-      "updated": 1747026774771,
+      "updated": 1747165502843,
       "link": null,
       "locked": false,
       "points": [
@@ -82,8 +82,8 @@
           0
         ],
         [
-          353.16778209154455,
-          0.05921513166361336
+          353.1548416847994,
+          -1.4923792128399214
         ]
       ],
       "lastCommittedPoint": null,
@@ -104,9 +104,9 @@
     {
       "id": "1zGmr21Smo3YtjnfFlJGp",
       "type": "text",
-      "x": 172.6831428418701,
-      "y": 4.8790990595550205,
-      "width": 134.56793212890625,
+      "x": -63.266965455469546,
+      "y": -62.93845722352954,
+      "width": 183.93190002441406,
       "height": 37.800000000000004,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -121,20 +121,20 @@
       "index": "a7V",
       "roundness": null,
       "seed": 1355196354,
-      "version": 17,
-      "versionNonce": 777149494,
+      "version": 22,
+      "versionNonce": 2061016996,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1746911712169,
+      "updated": 1747165331036,
       "link": null,
       "locked": false,
-      "text": "every hour",
+      "text": "run every hour",
       "fontSize": 28,
       "fontFamily": 6,
       "textAlign": "center",
       "verticalAlign": "middle",
       "containerId": "Fh7JmDlLx99ahqkuWv845",
-      "originalText": "every hour",
+      "originalText": "run every hour",
       "autoResize": true,
       "lineHeight": 1.35
     },
@@ -221,9 +221,9 @@
     {
       "id": "T0j9DMY4BPlazRyKaOVTz",
       "type": "text",
-      "x": 1571.4458863503255,
-      "y": -680.0966660264174,
-      "width": 129.16195678710938,
+      "x": 1578.3011096066407,
+      "y": -372.9808817312796,
+      "width": 130.5215301513672,
       "height": 83.43689368580137,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -238,28 +238,28 @@
       "index": "ad",
       "roundness": null,
       "seed": 139822210,
-      "version": 1289,
-      "versionNonce": 807617094,
+      "version": 1390,
+      "versionNonce": 1066491676,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1746949166465,
+      "updated": 1747165210566,
       "link": null,
       "locked": false,
-      "text": "Yewtu.be\nAPI",
+      "text": "YoutTube\nAPI",
       "fontSize": 30.902553216963465,
       "fontFamily": 6,
       "textAlign": "center",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "Yewtu.be\nAPI",
+      "originalText": "YoutTube\nAPI",
       "autoResize": true,
       "lineHeight": 1.35
     },
     {
       "id": "Vx_60LaYfKjMT-xX4de0Y",
       "type": "text",
-      "x": 309.4715412223528,
-      "y": 84.69332111825435,
+      "x": 309.486382575456,
+      "y": 86.88837556486834,
       "width": 278.4598388671875,
       "height": 37.800000000000004,
       "angle": 0,
@@ -275,11 +275,11 @@
       "index": "an",
       "roundness": null,
       "seed": 852853214,
-      "version": 845,
-      "versionNonce": 777638813,
+      "version": 849,
+      "versionNonce": 150697380,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1746924653461,
+      "updated": 1747165312855,
       "link": null,
       "locked": false,
       "text": "Schroedinger-Hat API",
@@ -293,47 +293,10 @@
       "lineHeight": 1.35
     },
     {
-      "id": "7XRqetTUkqmIj-FeUdq9G",
-      "type": "text",
-      "x": 1587.2952863949904,
-      "y": -145.89545199910202,
-      "width": 106.33676147460938,
-      "height": 88.62580972656859,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "dotted",
-      "roughness": 1,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "index": "ar",
-      "roundness": null,
-      "seed": 1541299486,
-      "version": 824,
-      "versionNonce": 1201956934,
-      "isDeleted": false,
-      "boundElements": [],
-      "updated": 1746949164498,
-      "link": null,
-      "locked": false,
-      "text": "GitHub\nAPI",
-      "fontSize": 32.82437397280318,
-      "fontFamily": 6,
-      "textAlign": "center",
-      "verticalAlign": "top",
-      "containerId": null,
-      "originalText": "GitHub\nAPI",
-      "autoResize": true,
-      "lineHeight": 1.35
-    },
-    {
       "id": "XY-yFZ_fM2awiUd6M1U8K",
       "type": "diamond",
-      "x": -398.64388754688247,
-      "y": -164.41565772145907,
+      "x": -398.63074831763896,
+      "y": -161.78477974292764,
       "width": 253.9104577638151,
       "height": 239.41528971304228,
       "angle": 0,
@@ -351,8 +314,8 @@
         "type": 2
       },
       "seed": 2107777282,
-      "version": 521,
-      "versionNonce": 1443802704,
+      "version": 525,
+      "versionNonce": 1386574500,
       "isDeleted": false,
       "boundElements": [
         {
@@ -364,15 +327,15 @@
           "type": "arrow"
         }
       ],
-      "updated": 1747026774771,
+      "updated": 1747165502843,
       "link": null,
       "locked": false
     },
     {
       "id": "xAsAlxvjmCrdSxRYqUMmj",
       "type": "text",
-      "x": -322.66824148971773,
-      "y": -63.461835293198504,
+      "x": -322.6551022604742,
+      "y": -60.830957314667074,
       "width": 102.00393676757812,
       "height": 37.800000000000004,
       "angle": 0,
@@ -388,11 +351,11 @@
       "index": "az",
       "roundness": null,
       "seed": 650900290,
-      "version": 492,
-      "versionNonce": 583296080,
+      "version": 496,
+      "versionNonce": 2049408548,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1747026774771,
+      "updated": 1747165502843,
       "link": null,
       "locked": false,
       "text": "CronJob",
@@ -408,8 +371,8 @@
     {
       "id": "bY6bgeu-R_yq_kXmOUY0a",
       "type": "text",
-      "x": 380.588010168492,
-      "y": -518.2032744034138,
+      "x": 372.5122626163711,
+      "y": -518.1979728143125,
       "width": 182.2798614501953,
       "height": 37.800000000000004,
       "angle": 0,
@@ -425,11 +388,11 @@
       "index": "b00",
       "roundness": null,
       "seed": 1732013858,
-      "version": 515,
-      "versionNonce": 913790973,
+      "version": 526,
+      "versionNonce": 861615900,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1746924653461,
+      "updated": 1747165390924,
       "link": null,
       "locked": false,
       "text": "Audio Epistles",
@@ -519,8 +482,8 @@
     {
       "id": "ZabgOdKdrc4grzTOXaalC",
       "type": "rectangle",
-      "x": 1412.9429837287548,
-      "y": 198.79517085341922,
+      "x": 1412.9782662655762,
+      "y": 2.7001554050002596,
       "width": 442.50592979016585,
       "height": 308.14628449148654,
       "angle": 0,
@@ -538,8 +501,8 @@
         "type": 3
       },
       "seed": 1303837151,
-      "version": 633,
-      "versionNonce": 78215115,
+      "version": 710,
+      "versionNonce": 2003773852,
       "isDeleted": false,
       "boundElements": [
         {
@@ -547,7 +510,7 @@
           "type": "arrow"
         }
       ],
-      "updated": 1746919721792,
+      "updated": 1747165520476,
       "link": null,
       "locked": false
     },
@@ -628,10 +591,10 @@
     {
       "id": "evGHXiPIhiqft2qnO5uX0",
       "type": "arrow",
-      "x": 599.8898932337322,
-      "y": -353.20635960824916,
-      "width": 807.708614224764,
-      "height": 241.73119495978472,
+      "x": 599.9021694146941,
+      "y": -347.654777414763,
+      "width": 799.418432456154,
+      "height": 0.8569190740702197,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -647,8 +610,8 @@
         "type": 2
       },
       "seed": 1847965610,
-      "version": 1214,
-      "versionNonce": 492066970,
+      "version": 1349,
+      "versionNonce": 1850468516,
       "isDeleted": false,
       "boundElements": [
         {
@@ -656,7 +619,7 @@
           "id": "houcAVlUXp0KjaPiPnZbr"
         }
       ],
-      "updated": 1746949284126,
+      "updated": 1747165376409,
       "link": null,
       "locked": false,
       "points": [
@@ -665,20 +628,20 @@
           0
         ],
         [
-          807.708614224764,
-          -241.73119495978472
+          799.418432456154,
+          0.8569190740702197
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
         "elementId": "NafUxyLuWX5UZ71EzzBTN",
-        "focus": 0.232947655875813,
-        "gap": 3.862209426956838
+        "focus": -0.21184724947991074,
+        "gap": 3.8744856079187002
       },
       "endBinding": {
         "elementId": "w-m4Pcnci05Fk-sORmU5D",
-        "focus": 0.0434404136570006,
-        "gap": 1.4150966905192959
+        "focus": 0.018425036692730767,
+        "gap": 10.549156462246833
       },
       "startArrowhead": "triangle",
       "endArrowhead": "triangle",
@@ -832,10 +795,10 @@
     {
       "id": "64iakSJIHwzLnYfKqcrOZ",
       "type": "arrow",
-      "x": 597.5350144757404,
-      "y": -93.08352936197512,
-      "width": 807.0819393502782,
-      "height": 2.5991106821913803,
+      "x": 452.05042178054794,
+      "y": -51.0988478494199,
+      "width": 2.201782366255884,
+      "height": 86.03527868581887,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -851,8 +814,8 @@
         "type": 2
       },
       "seed": 636908586,
-      "version": 648,
-      "versionNonce": 2121248902,
+      "version": 860,
+      "versionNonce": 855215004,
       "isDeleted": false,
       "boundElements": [
         {
@@ -860,7 +823,7 @@
           "id": "cUO0oGoDXOFc8GYbbS-6m"
         }
       ],
-      "updated": 1746949255706,
+      "updated": 1747165309722,
       "link": null,
       "locked": false,
       "points": [
@@ -869,20 +832,20 @@
           0
         ],
         [
-          807.0819393502782,
-          -2.5991106821913803
+          2.201782366255884,
+          86.03527868581887
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
         "elementId": "k9Nrnld_UrBU8qVkNHe74",
-        "focus": 0.4035918758468497,
-        "gap": 1.2696827866814147
+        "focus": 0.006642103202191447,
+        "gap": 4.854660659249177
       },
       "endBinding": {
-        "elementId": "jh_H3DwoTCl7aq4KDwErk",
-        "focus": -0.1177944105350289,
-        "gap": 2.1868236843939037
+        "elementId": "4pa3qd_oZaxROmc1--JAy",
+        "focus": 0.04385378772090939,
+        "gap": 11.054503087507811
       },
       "startArrowhead": null,
       "endArrowhead": "triangle",
@@ -891,9 +854,9 @@
     {
       "id": "cUO0oGoDXOFc8GYbbS-6m",
       "type": "text",
-      "x": 981.8837909680781,
-      "y": -97.39808969027666,
-      "width": 153.1598663330078,
+      "x": 944.7400313920904,
+      "y": -113.28308470307081,
+      "width": 112.67190551757812,
       "height": 37.800000000000004,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -908,28 +871,28 @@
       "index": "b0L",
       "roundness": null,
       "seed": 1468353654,
-      "version": 17,
-      "versionNonce": 1721832953,
+      "version": 30,
+      "versionNonce": 1090347300,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1746923423175,
+      "updated": 1747165143927,
       "link": null,
       "locked": false,
-      "text": "git commit()",
+      "text": "publish()",
       "fontSize": 28,
       "fontFamily": 6,
       "textAlign": "center",
       "verticalAlign": "middle",
       "containerId": "64iakSJIHwzLnYfKqcrOZ",
-      "originalText": "git commit()",
+      "originalText": "publish()",
       "autoResize": true,
       "lineHeight": 1.35
     },
     {
       "id": "w-m4Pcnci05Fk-sORmU5D",
       "type": "ellipse",
-      "x": 1402.292546280022,
-      "y": -876.2149834484655,
+      "x": 1409.827556218466,
+      "y": -569.0991991533277,
       "width": 460.90123058399877,
       "height": 453.4838189483521,
       "angle": 0,
@@ -947,8 +910,8 @@
         "type": 2
       },
       "seed": 1738916406,
-      "version": 371,
-      "versionNonce": 1805670917,
+      "version": 465,
+      "versionNonce": 231475740,
       "isDeleted": false,
       "boundElements": [
         {
@@ -956,113 +919,17 @@
           "type": "arrow"
         }
       ],
-      "updated": 1746919697592,
+      "updated": 1747165274023,
       "link": null,
       "locked": false
     },
     {
-      "id": "1hWou5YfsLvbuj3KJ_r7r",
-      "type": "arrow",
-      "x": 1449.274158487014,
-      "y": 16.82145077244951,
-      "width": 851.6858362986696,
-      "height": 63.38522795097937,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "dashed",
-      "roughness": 1,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "index": "b0N",
-      "roundness": {
-        "type": 2
-      },
-      "seed": 1861817002,
-      "version": 735,
-      "versionNonce": 1869229830,
-      "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "tJJPnM4N3G6-fYTgm4uJn"
-        }
-      ],
-      "updated": 1746949279051,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0,
-          0
-        ],
-        [
-          -851.6858362986696,
-          63.38522795097937
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "jh_H3DwoTCl7aq4KDwErk",
-        "focus": -0.5173577162380704,
-        "gap": 3.9681680318466483
-      },
-      "endBinding": {
-        "elementId": "4pa3qd_oZaxROmc1--JAy",
-        "focus": -0.09763859855146467,
-        "gap": 1.2533276228712111
-      },
-      "startArrowhead": null,
-      "endArrowhead": "triangle",
-      "elbowed": false
-    },
-    {
-      "id": "tJJPnM4N3G6-fYTgm4uJn",
-      "type": "text",
-      "x": 893.2798262844321,
-      "y": 40.21631932324553,
-      "width": 341.8797912597656,
-      "height": 37.800000000000004,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "dashed",
-      "roughness": 1,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "index": "b0O",
-      "roundness": null,
-      "seed": 1339402166,
-      "version": 59,
-      "versionNonce": 1603777367,
-      "isDeleted": false,
-      "boundElements": [],
-      "updated": 1746923467379,
-      "link": null,
-      "locked": false,
-      "text": "run workflow (publish.yml)",
-      "fontSize": 28,
-      "fontFamily": 6,
-      "textAlign": "center",
-      "verticalAlign": "middle",
-      "containerId": "1hWou5YfsLvbuj3KJ_r7r",
-      "originalText": "run workflow (publish.yml)",
-      "autoResize": true,
-      "lineHeight": 1.35
-    },
-    {
       "id": "DxZqctuh16PlpdPNZPI9n",
       "type": "arrow",
-      "x": 597.231099506728,
-      "y": 135.0530337431737,
-      "width": 814.6367169293171,
-      "height": 227.79973512755552,
+      "x": 597.8994194793164,
+      "y": 116.55215082015904,
+      "width": 814.2587422288476,
+      "height": 65.63292121966761,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -1078,8 +945,8 @@
         "type": 2
       },
       "seed": 400062506,
-      "version": 816,
-      "versionNonce": 1223304902,
+      "version": 923,
+      "versionNonce": 328177180,
       "isDeleted": false,
       "boundElements": [
         {
@@ -1087,7 +954,7 @@
           "id": "6ZMLV08N1U8R0ZNLh9NLg"
         }
       ],
-      "updated": 1746949158085,
+      "updated": 1747165520476,
       "link": null,
       "locked": false,
       "points": [
@@ -1096,20 +963,20 @@
           0
         ],
         [
-          814.6367169293171,
-          227.79973512755552
+          814.2587422288476,
+          65.63292121966761
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
         "elementId": "4pa3qd_oZaxROmc1--JAy",
-        "focus": -0.04867937210993072,
+        "focus": -0.023016392686597498,
         "gap": 1
       },
       "endBinding": {
         "elementId": "ZabgOdKdrc4grzTOXaalC",
-        "focus": -0.33413860122367445,
-        "gap": 1.0751672927096934
+        "focus": -0.2518123401611661,
+        "gap": 1
       },
       "startArrowhead": null,
       "endArrowhead": "triangle",
@@ -1153,49 +1020,10 @@
       "lineHeight": 1.35
     },
     {
-      "id": "jh_H3DwoTCl7aq4KDwErk",
-      "type": "ellipse",
-      "x": 1405.1142762991865,
-      "y": -349.9646390283838,
-      "width": 460.90123058399877,
-      "height": 453.4838189483521,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 1,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "index": "b0R",
-      "roundness": {
-        "type": 2
-      },
-      "seed": 1625660970,
-      "version": 339,
-      "versionNonce": 2075168133,
-      "isDeleted": false,
-      "boundElements": [
-        {
-          "id": "1hWou5YfsLvbuj3KJ_r7r",
-          "type": "arrow"
-        },
-        {
-          "id": "64iakSJIHwzLnYfKqcrOZ",
-          "type": "arrow"
-        }
-      ],
-      "updated": 1746919710626,
-      "link": null,
-      "locked": false
-    },
-    {
       "id": "4pa3qd_oZaxROmc1--JAy",
       "type": "rectangle",
-      "x": 301.5617188082741,
-      "y": 32.35580564033529,
+      "x": 302.21583770430186,
+      "y": 39.795171303225914,
       "width": 294.7732757571989,
       "height": 132.94925818122695,
       "angle": 0,
@@ -1203,7 +1031,7 @@
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
-      "strokeStyle": "solid",
+      "strokeStyle": "dashed",
       "roughness": 1,
       "opacity": 100,
       "groupIds": [],
@@ -1213,20 +1041,20 @@
         "type": 3
       },
       "seed": 1300489258,
-      "version": 919,
-      "versionNonce": 1271309981,
+      "version": 934,
+      "versionNonce": 1664909980,
       "isDeleted": false,
       "boundElements": [
         {
-          "id": "1hWou5YfsLvbuj3KJ_r7r",
+          "id": "DxZqctuh16PlpdPNZPI9n",
           "type": "arrow"
         },
         {
-          "id": "DxZqctuh16PlpdPNZPI9n",
+          "id": "64iakSJIHwzLnYfKqcrOZ",
           "type": "arrow"
         }
       ],
-      "updated": 1746924653461,
+      "updated": 1747165309722,
       "link": null,
       "locked": false
     },
@@ -1319,8 +1147,8 @@
     {
       "id": "t3B_oTziNWRXuSEHsQCHg",
       "type": "text",
-      "x": 1501.3549724045963,
-      "y": 345.86215205272435,
+      "x": 1501.3902549414177,
+      "y": 149.7671366043054,
       "width": 274.49652099609375,
       "height": 45.682891159464184,
       "angle": 0,
@@ -1336,11 +1164,11 @@
       "index": "b0W",
       "roundness": null,
       "seed": 1844908342,
-      "version": 376,
-      "versionNonce": 1059145862,
+      "version": 453,
+      "versionNonce": 435057308,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1746949161915,
+      "updated": 1747165520476,
       "link": null,
       "locked": false,
       "text": "Spotify/Anchor.fm",
@@ -1373,28 +1201,28 @@
       "index": "b0X",
       "roundness": null,
       "seed": 1160505654,
-      "version": 3519,
-      "versionNonce": 1238680070,
+      "version": 3531,
+      "versionNonce": 128111908,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1746949147682,
+      "updated": 1747165435916,
       "link": null,
       "locked": false,
-      "text": "Functional Requirements (features)\n- Given a sermon playlist, find the most recent sermon that is available.\n- Extract sermon audio & Upload to Spotify/Anchor.fm (with title, description & thumbnail).\n\nNon-Functional Requirements (qualities)\n- Reliability/Consistency of publishes (no double publishing of sermons).\n- Low latency between new sermon upload & publish (publish ~1hr after sermon is available).\n\nCore Entities (data persisted and/or exchanged)\n- ID (most recent video ID stored in episode.json)\n- Sermon_Playlist_ID (stored in .env)",
+      "text": "Functional Requirements (features)\n- Given a sermon playlist, find the most recent sermon that is available.\n- Extract sermon audio & Upload to Spotify/Anchor.fm (with title, description & thumbnail).\n\nNon-Functional Requirements (qualities)\n- Reliability/Consistency of publishes (no double publishing of sermons).\n- Low latency between new sermon upload & publish (publish ~1hr after sermon is available).\n\nCore Entities (data persisted and/or exchanged)\n- ID (most recent video ID stored in video_id.json)\n- Sermon_Playlist_ID (stored in .env)",
       "fontSize": 41.03693822300454,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "Functional Requirements (features)\n- Given a sermon playlist, find the most recent sermon that is available.\n- Extract sermon audio & Upload to Spotify/Anchor.fm (with title, description & thumbnail).\n\nNon-Functional Requirements (qualities)\n- Reliability/Consistency of publishes (no double publishing of sermons).\n- Low latency between new sermon upload & publish (publish ~1hr after sermon is available).\n\nCore Entities (data persisted and/or exchanged)\n- ID (most recent video ID stored in episode.json)\n- Sermon_Playlist_ID (stored in .env)",
+      "originalText": "Functional Requirements (features)\n- Given a sermon playlist, find the most recent sermon that is available.\n- Extract sermon audio & Upload to Spotify/Anchor.fm (with title, description & thumbnail).\n\nNon-Functional Requirements (qualities)\n- Reliability/Consistency of publishes (no double publishing of sermons).\n- Low latency between new sermon upload & publish (publish ~1hr after sermon is available).\n\nCore Entities (data persisted and/or exchanged)\n- ID (most recent video ID stored in video_id.json)\n- Sermon_Playlist_ID (stored in .env)",
       "autoResize": false,
       "lineHeight": 1.25
     },
     {
       "id": "yOCNMOYb0tVj56xoSO5hq",
       "type": "text",
-      "x": 1927.4970001353931,
-      "y": 295.3300653332002,
+      "x": 1919.7240926367085,
+      "y": 96.43436200198778,
       "width": 998.467529296875,
       "height": 137.2268722923602,
       "angle": 0,
@@ -1410,11 +1238,11 @@
       "index": "b0a",
       "roundness": null,
       "seed": 722314940,
-      "version": 526,
-      "versionNonce": 1587304858,
+      "version": 653,
+      "versionNonce": 664001188,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1746948399038,
+      "updated": 1747165525860,
       "link": null,
       "locked": false,
       "text": "Schroedinger-Hat API\n• Bundle audio, title, description, thumbnail into episode\n• Upload sermon episode to Spotify/Anchor.fm",
@@ -1430,10 +1258,10 @@
     {
       "id": "Rja63CWk5I68wlgtjXiC2",
       "type": "text",
-      "x": 1931.1138224609747,
-      "y": -278.34526192330793,
-      "width": 965.3436889648438,
-      "height": 346.20914097963185,
+      "x": 1925.9685238753625,
+      "y": -161.30049240152937,
+      "width": 708.740234375,
+      "height": 129.82842786736194,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -1447,29 +1275,29 @@
       "index": "b0b",
       "roundness": null,
       "seed": 1649676348,
-      "version": 616,
-      "versionNonce": 1114476762,
+      "version": 811,
+      "versionNonce": 702527260,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1746949009862,
+      "updated": 1747165531426,
       "link": null,
       "locked": false,
-      "text": "Publish Service\n• Replace video ID in episode.json\n• Commit changes in episode.json to GitHub (main branch)\n\n\nGithub\n• Run build, run linter, run tests\n• Run publish.yml (CI/CD workflow)",
+      "text": "Publish Service\n• Replace video ID in video_id.json\n• Trigger uploading (via Schroedinger-Hat)",
       "fontSize": 34.62091409796319,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "Publish Service\n• Replace video ID in episode.json\n• Commit changes in episode.json to GitHub (main branch)\n\n\nGithub\n• Run build, run linter, run tests\n• Run publish.yml (CI/CD workflow)",
+      "originalText": "Publish Service\n• Replace video ID in video_id.json\n• Trigger uploading (via Schroedinger-Hat)",
       "autoResize": true,
       "lineHeight": 1.25
     },
     {
       "id": "WtGidFVkhbwd8MZMdtYkZ",
       "type": "text",
-      "x": 1933.9006891469912,
-      "y": -715.8348741003507,
-      "width": 1323.35107421875,
+      "x": 1933.9438330230173,
+      "y": -399.52805290368383,
+      "width": 1127.486083984375,
       "height": 124.59397347123519,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -1484,20 +1312,20 @@
       "index": "b0c",
       "roundness": null,
       "seed": 1521125436,
-      "version": 736,
-      "versionNonce": 501081776,
+      "version": 838,
+      "versionNonce": 483810340,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1747026842604,
+      "updated": 1747165535343,
       "link": null,
       "locked": false,
-      "text": "Video Service\n• Fetch newest video using yewtu.be (YouTube player & downloader w/o API key)\n• Extract the video's ID (check if episode.json already contains ID)",
+      "text": "Video Service\n• Fetch newest video from YouTube playlist\n• Extract the video's ID (check if video_id.json already contains ID)",
       "fontSize": 33.22505959232938,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "Video Service\n• Fetch newest video using yewtu.be (YouTube player & downloader w/o API key)\n• Extract the video's ID (check if episode.json already contains ID)",
+      "originalText": "Video Service\n• Fetch newest video from YouTube playlist\n• Extract the video's ID (check if video_id.json already contains ID)",
       "autoResize": true,
       "lineHeight": 1.25
     },
