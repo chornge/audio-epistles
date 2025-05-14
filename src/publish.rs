@@ -20,8 +20,6 @@ pub async fn publish(video_json: &str) -> Result<()> {
 
     // Update the JSON with the new video ID
     video_data["id"] = json!(video_json);
-
-    // Write the updated JSON back to video_id.json
     fs::write(file_path, video_data.to_string())?;
     println!("Update video_id.json with: {}", video_json);
 
