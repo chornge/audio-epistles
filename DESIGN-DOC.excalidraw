@@ -141,10 +141,10 @@
     {
       "id": "MVB0MLDfwxEbVCYivKzQz",
       "type": "ellipse",
-      "x": 647.752431318476,
-      "y": -256.54781339589243,
-      "width": 118.79740235132752,
-      "height": 89.4087095884872,
+      "x": 230.0872128553545,
+      "y": 72.56135108573739,
+      "width": 111.21939045669424,
+      "height": 83,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -160,8 +160,8 @@
         "type": 2
       },
       "seed": 849294433,
-      "version": 1530,
-      "versionNonce": 864048623,
+      "version": 1724,
+      "versionNonce": 612580616,
       "isDeleted": false,
       "boundElements": [
         {
@@ -177,15 +177,15 @@
           "id": "uDFZ9SM9GvTfxUmzoaToc"
         }
       ],
-      "updated": 1747187669194,
+      "updated": 1747327749388,
       "link": null,
       "locked": false
     },
     {
       "id": "uDFZ9SM9GvTfxUmzoaToc",
       "type": "text",
-      "x": 673.7419185972014,
-      "y": -236.25421102522785,
+      "x": 252.46692598606705,
+      "y": 89.91641966649566,
       "width": 66.81597900390625,
       "height": 48.6,
       "angle": 0,
@@ -201,11 +201,11 @@
       "index": "a8",
       "roundness": null,
       "seed": 554915649,
-      "version": 49,
-      "versionNonce": 63669377,
+      "version": 225,
+      "versionNonce": 1646681096,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1747187669194,
+      "updated": 1747327749388,
       "link": null,
       "locked": false,
       "text": "json",
@@ -221,8 +221,8 @@
     {
       "id": "T0j9DMY4BPlazRyKaOVTz",
       "type": "text",
-      "x": 1578.9284594601563,
-      "y": -369.8723001883109,
+      "x": 1581.4745485621995,
+      "y": -366.98639705132314,
       "width": 119.45933532714844,
       "height": 83.43689368580137,
       "angle": 0,
@@ -238,11 +238,11 @@
       "index": "ad",
       "roundness": null,
       "seed": 139822210,
-      "version": 1456,
-      "versionNonce": 20314623,
+      "version": 1464,
+      "versionNonce": 909587720,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1747188264422,
+      "updated": 1747327791190,
       "link": null,
       "locked": false,
       "text": "YouTube\nAPI",
@@ -258,8 +258,8 @@
     {
       "id": "Vx_60LaYfKjMT-xX4de0Y",
       "type": "text",
-      "x": 319.90794260666644,
-      "y": 102.78897638292602,
+      "x": 365.8882511869232,
+      "y": 97.53265184356536,
       "width": 278.4598388671875,
       "height": 37.800000000000004,
       "angle": 0,
@@ -275,11 +275,11 @@
       "index": "an",
       "roundness": null,
       "seed": 852853214,
-      "version": 887,
-      "versionNonce": 1947859313,
+      "version": 1035,
+      "versionNonce": 180666376,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1747188228457,
+      "updated": 1747327746400,
       "link": null,
       "locked": false,
       "text": "Schroedinger-Hat API",
@@ -482,8 +482,8 @@
     {
       "id": "ZabgOdKdrc4grzTOXaalC",
       "type": "rectangle",
-      "x": 1406.6802457218864,
-      "y": -74.84550204211348,
+      "x": 1418.7836750905658,
+      "y": -45.56711408440901,
       "width": 442.50592979016585,
       "height": 308.14628449148654,
       "angle": 0,
@@ -501,8 +501,8 @@
         "type": 3
       },
       "seed": 1303837151,
-      "version": 860,
-      "versionNonce": 806279567,
+      "version": 905,
+      "versionNonce": 1708951290,
       "isDeleted": false,
       "boundElements": [
         {
@@ -510,7 +510,7 @@
           "type": "arrow"
         }
       ],
-      "updated": 1747187377670,
+      "updated": 1747327930237,
       "link": null,
       "locked": false
     },
@@ -518,9 +518,9 @@
       "id": "VXi1VmR1sWmK9uEUImglG",
       "type": "text",
       "x": 353.68874165226043,
-      "y": -134.74225601174012,
-      "width": 203.30734252929688,
-      "height": 39.6319166021521,
+      "y": -133.82629771066408,
+      "width": 193.9558868408203,
+      "height": 37.800000000000004,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -534,15 +534,15 @@
       "index": "b09",
       "roundness": null,
       "seed": 762679018,
-      "version": 629,
-      "versionNonce": 1910449503,
+      "version": 632,
+      "versionNonce": 1996881416,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1747188224039,
+      "updated": 1747327715248,
       "link": null,
       "locked": false,
       "text": "Publish Service",
-      "fontSize": 29.356975260853407,
+      "fontSize": 28,
       "fontFamily": 6,
       "textAlign": "left",
       "verticalAlign": "top",
@@ -555,9 +555,9 @@
       "id": "Mef0fbAFwTUA3BmGwhZVY",
       "type": "text",
       "x": 364.48897600410726,
-      "y": -347.0579548769836,
-      "width": 179.9356231689453,
-      "height": 39.227712970460004,
+      "y": -346.3440983917536,
+      "width": 173.43190002441406,
+      "height": 37.800000000000004,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -571,15 +571,15 @@
       "index": "b0B",
       "roundness": null,
       "seed": 970726774,
-      "version": 932,
-      "versionNonce": 1126955791,
+      "version": 935,
+      "versionNonce": 1735641720,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1747187526638,
+      "updated": 1747327718564,
       "link": null,
       "locked": false,
       "text": "Video Service",
-      "fontSize": 29.057565163303703,
+      "fontSize": 28,
       "fontFamily": 6,
       "textAlign": "left",
       "verticalAlign": "top",
@@ -610,8 +610,8 @@
         "type": 2
       },
       "seed": 1847965610,
-      "version": 1443,
-      "versionNonce": 1215885809,
+      "version": 1444,
+      "versionNonce": 2059165560,
       "isDeleted": false,
       "boundElements": [
         {
@@ -619,7 +619,7 @@
           "id": "houcAVlUXp0KjaPiPnZbr"
         }
       ],
-      "updated": 1747188255148,
+      "updated": 1747327774066,
       "link": null,
       "locked": false,
       "points": [
@@ -650,9 +650,9 @@
     {
       "id": "houcAVlUXp0KjaPiPnZbr",
       "type": "text",
-      "x": 888.1202419219566,
-      "y": -366.09950206013747,
-      "width": 227.19593811035156,
+      "x": 900.0776271504366,
+      "y": -363.6930780599699,
+      "width": 209.8079376220703,
       "height": 48.6,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -667,30 +667,30 @@
       "index": "b0E",
       "roundness": null,
       "seed": 966568246,
-      "version": 43,
-      "versionNonce": 193573921,
+      "version": 45,
+      "versionNonce": 616388104,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1747187498232,
+      "updated": 1747327773234,
       "link": null,
       "locked": false,
-      "text": "fetch_videos()",
+      "text": "fetch_video()",
       "fontSize": 36,
       "fontFamily": 6,
       "textAlign": "center",
       "verticalAlign": "middle",
       "containerId": "evGHXiPIhiqft2qnO5uX0",
-      "originalText": "fetch_videos()",
+      "originalText": "fetch_video()",
       "autoResize": true,
       "lineHeight": 1.35
     },
     {
       "id": "KoGTMnTZBIXGS048hmocU",
       "type": "arrow",
-      "x": 606.6825677862457,
-      "y": -140.88679530823126,
-      "width": 55.69955273469691,
-      "height": 37.804840993858335,
+      "x": 374.57455962114614,
+      "y": -45.347652069555366,
+      "width": 66.71446654861256,
+      "height": 123.12518816744561,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -706,11 +706,11 @@
         "type": 2
       },
       "seed": 1853276202,
-      "version": 1273,
-      "versionNonce": 63523937,
+      "version": 1692,
+      "versionNonce": 1086428280,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1747187669194,
+      "updated": 1747327764265,
       "link": null,
       "locked": false,
       "points": [
@@ -719,20 +719,20 @@
           0
         ],
         [
-          55.69955273469691,
-          -37.804840993858335
+          -66.71446654861256,
+          123.12518816744561
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
         "elementId": "k9Nrnld_UrBU8qVkNHe74",
-        "focus": 0.4562970157730733,
-        "gap": 1.4711172856591475
+        "focus": 0.21720848487662858,
+        "gap": 1
       },
       "endBinding": {
-        "elementId": "MVB0MLDfwxEbVCYivKzQz",
-        "focus": -0.03132883267342813,
-        "gap": 2.937659209531338
+        "elementId": "4pa3qd_oZaxROmc1--JAy",
+        "focus": -0.5748311701097117,
+        "gap": 27.415070475869555
       },
       "startArrowhead": null,
       "endArrowhead": "triangle",
@@ -741,10 +741,10 @@
     {
       "id": "DYltqs_Z8QZs-nNyhQHfG",
       "type": "arrow",
-      "x": 601.3749576922529,
-      "y": -286.0391910550228,
-      "width": 72.62699832313263,
-      "height": 34.409008413010525,
+      "x": 310.70993083385673,
+      "y": -269.4507266191741,
+      "width": 61.20439735097449,
+      "height": 348.39249748283333,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -760,11 +760,11 @@
         "type": 2
       },
       "seed": 128496362,
-      "version": 1354,
-      "versionNonce": 1954748481,
+      "version": 1697,
+      "versionNonce": 1281350008,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1747187669194,
+      "updated": 1747327767416,
       "link": null,
       "locked": false,
       "points": [
@@ -773,20 +773,20 @@
           0
         ],
         [
-          72.62699832313263,
-          34.409008413010525
+          -61.20439735097449,
+          348.39249748283333
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
         "elementId": "NafUxyLuWX5UZ71EzzBTN",
-        "focus": -0.18551759150700267,
-        "gap": 1.3976248156682198
+        "focus": 0.8003620099600663,
+        "gap": 1
       },
       "endBinding": {
-        "elementId": "MVB0MLDfwxEbVCYivKzQz",
-        "focus": 0.33165928406625095,
-        "gap": 2.4294632534362552
+        "elementId": "4pa3qd_oZaxROmc1--JAy",
+        "focus": -0.8962329923334316,
+        "gap": 28.579305241638565
       },
       "startArrowhead": null,
       "endArrowhead": "triangle",
@@ -795,10 +795,10 @@
     {
       "id": "64iakSJIHwzLnYfKqcrOZ",
       "type": "arrow",
-      "x": 462.646970154613,
-      "y": -44.84017719570109,
-      "width": 0.36819218676475884,
-      "height": 82.39013722263559,
+      "x": 457.2096183063341,
+      "y": -44.56896162922949,
+      "width": 1.2149547725047682,
+      "height": 93.69424008361386,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -814,8 +814,8 @@
         "type": 2
       },
       "seed": 636908586,
-      "version": 941,
-      "versionNonce": 1125097537,
+      "version": 1314,
+      "versionNonce": 702711048,
       "isDeleted": false,
       "boundElements": [
         {
@@ -823,7 +823,7 @@
           "id": "cUO0oGoDXOFc8GYbbS-6m"
         }
       ],
-      "updated": 1747187517138,
+      "updated": 1747327759500,
       "link": null,
       "locked": false,
       "points": [
@@ -832,20 +832,20 @@
           0
         ],
         [
-          0.36819218676475884,
-          82.39013722263559
+          -1.2149547725047682,
+          93.69424008361386
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
         "elementId": "k9Nrnld_UrBU8qVkNHe74",
-        "focus": -0.05053920483497574,
-        "gap": 2.1619918025489113
+        "focus": -0.02281521758980135,
+        "gap": 1.2100092138293377
       },
       "endBinding": {
         "elementId": "4pa3qd_oZaxROmc1--JAy",
-        "focus": 0.014674819522610873,
-        "gap": 5.071306551081804
+        "focus": 0.05801039745987672,
+        "gap": 1.2371871676363213
       },
       "startArrowhead": null,
       "endArrowhead": "triangle",
@@ -926,10 +926,10 @@
     {
       "id": "4pa3qd_oZaxROmc1--JAy",
       "type": "rectangle",
-      "x": 291.0800677305018,
-      "y": 39.816974033296844,
-      "width": 339.6361290267728,
-      "height": 164.6558527968571,
+      "x": 206.98125883129512,
+      "y": 50.36246562202069,
+      "width": 468.8822651033522,
+      "height": 139.39406949331445,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -945,8 +945,8 @@
         "type": 3
       },
       "seed": 1300489258,
-      "version": 981,
-      "versionNonce": 1297696623,
+      "version": 1338,
+      "versionNonce": 1419306616,
       "isDeleted": false,
       "boundElements": [
         {
@@ -956,9 +956,17 @@
         {
           "id": "n29i17uOjuf-1m3BZ59PO",
           "type": "arrow"
+        },
+        {
+          "id": "KoGTMnTZBIXGS048hmocU",
+          "type": "arrow"
+        },
+        {
+          "id": "DYltqs_Z8QZs-nNyhQHfG",
+          "type": "arrow"
         }
       ],
-      "updated": 1747187273511,
+      "updated": 1747327766814,
       "link": null,
       "locked": false
     },
@@ -1051,10 +1059,10 @@
     {
       "id": "t3B_oTziNWRXuSEHsQCHg",
       "type": "text",
-      "x": 1494.4118475979874,
-      "y": 65.61873421345649,
-      "width": 274.49652099609375,
-      "height": 45.682891159464184,
+      "x": 1588.1208794753186,
+      "y": 65.67517486144095,
+      "width": 108.66191101074219,
+      "height": 91.36578231892837,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "#ffffff",
@@ -1068,20 +1076,20 @@
       "index": "b0W",
       "roundness": null,
       "seed": 1844908342,
-      "version": 619,
-      "versionNonce": 1496953969,
+      "version": 691,
+      "versionNonce": 1981279674,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1747188248789,
+      "updated": 1747327946995,
       "link": null,
       "locked": false,
-      "text": "Spotify/Anchor.fm",
+      "text": "Spotify\nAPI",
       "fontSize": 33.839178636640135,
       "fontFamily": 6,
       "textAlign": "center",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "Spotify/Anchor.fm",
+      "originalText": "Spotify\nAPI",
       "autoResize": true,
       "lineHeight": 1.35
     },
@@ -1091,7 +1099,7 @@
       "x": 97.16880706486052,
       "y": 498.92217714046865,
       "width": 1967.7713064591535,
-      "height": 585.2347882606851,
+      "height": 585.2347882606848,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "#ffffff",
@@ -1105,20 +1113,20 @@
       "index": "b0X",
       "roundness": null,
       "seed": 1160505654,
-      "version": 3754,
-      "versionNonce": 1369553231,
+      "version": 3779,
+      "versionNonce": 1146019080,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1747187398004,
+      "updated": 1747327589402,
       "link": null,
       "locked": false,
-      "text": "Functional Requirements (features)\n- Given a sermon playlist, find the most recent sermon that is available.\n- Extract sermon audio & Upload to Spotify/Anchor.fm (with title, description & thumbnail).\n\nNon-Functional Requirements (qualities)\n- Reliability/Consistency of publishes (no double publishing of sermons).\n- Low latency between new sermon upload & publish (publish ~1hr after sermon is available).\n\nCore Entities (data persisted and/or exchanged)\n- ID (most recent video ID stored in video_id.json)\n- Sermon_Playlist_ID (stored in .env)",
+      "text": "Functional Requirements (features)\n- Given a sermon playlist, find the most recent sermon that is available.\n- Extract sermon audio & Upload to Spotify/Anchor.fm (with title, description & thumbnail).\n\nNon-Functional Requirements (qualities)\n- Reliability/Consistency of publishes (no double publishing of sermons).\n- Low latency between new sermon upload & publish (publish ~1hr after sermon is available).\n\nCore Entities (data persisted and/or exchanged)\n- ID (most recent video ID stored in schroedinger-hat/episode.json)\n- Sermon_Playlist_ID (stored in .env)",
       "fontSize": 42.56253005532253,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "Functional Requirements (features)\n- Given a sermon playlist, find the most recent sermon that is available.\n- Extract sermon audio & Upload to Spotify/Anchor.fm (with title, description & thumbnail).\n\nNon-Functional Requirements (qualities)\n- Reliability/Consistency of publishes (no double publishing of sermons).\n- Low latency between new sermon upload & publish (publish ~1hr after sermon is available).\n\nCore Entities (data persisted and/or exchanged)\n- ID (most recent video ID stored in video_id.json)\n- Sermon_Playlist_ID (stored in .env)",
+      "originalText": "Functional Requirements (features)\n- Given a sermon playlist, find the most recent sermon that is available.\n- Extract sermon audio & Upload to Spotify/Anchor.fm (with title, description & thumbnail).\n\nNon-Functional Requirements (qualities)\n- Reliability/Consistency of publishes (no double publishing of sermons).\n- Low latency between new sermon upload & publish (publish ~1hr after sermon is available).\n\nCore Entities (data persisted and/or exchanged)\n- ID (most recent video ID stored in schroedinger-hat/episode.json)\n- Sermon_Playlist_ID (stored in .env)",
       "autoResize": false,
       "lineHeight": 1.25
     },
@@ -1142,20 +1150,20 @@
       "index": "b0a",
       "roundness": null,
       "seed": 722314940,
-      "version": 690,
-      "versionNonce": 1983519247,
+      "version": 754,
+      "versionNonce": 719262984,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1747187381805,
+      "updated": 1747327660506,
       "link": null,
       "locked": false,
-      "text": "Schroedinger-Hat API\n• Bundle audio, title, description, thumbnail into episode\n• Upload sermon episode to Spotify/Anchor.fm",
+      "text": "Schroedinger as a Service (SaaS)\n• Bundle audio, title, description, thumbnail into episode\n• Upload sermon episode to Spotify/Anchor.fm",
       "fontSize": 36.59383261129606,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "Schroedinger-Hat API\n• Bundle audio, title, description, thumbnail into episode\n• Upload sermon episode to Spotify/Anchor.fm",
+      "originalText": "Schroedinger as a Service (SaaS)\n• Bundle audio, title, description, thumbnail into episode\n• Upload sermon episode to Spotify/Anchor.fm",
       "autoResize": true,
       "lineHeight": 1.25
     },
@@ -1179,20 +1187,20 @@
       "index": "b0b",
       "roundness": null,
       "seed": 1649676348,
-      "version": 913,
-      "versionNonce": 993498607,
+      "version": 914,
+      "versionNonce": 571963144,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1747187181553,
+      "updated": 1747327610710,
       "link": null,
       "locked": false,
-      "text": "Publish Service\n• Replace video ID in video_id.json\n• Trigger uploading (via Schroedinger-Hat)",
+      "text": "Publish Service\n• Replace video ID in json\n• Trigger uploading (via Schroedinger-Hat)",
       "fontSize": 34.62091409796319,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "Publish Service\n• Replace video ID in video_id.json\n• Trigger uploading (via Schroedinger-Hat)",
+      "originalText": "Publish Service\n• Replace video ID in json\n• Trigger uploading (via Schroedinger-Hat)",
       "autoResize": true,
       "lineHeight": 1.25
     },
@@ -1201,7 +1209,7 @@
       "type": "text",
       "x": 1932.2327793335048,
       "y": -412.89553190270465,
-      "width": 1127.486083984375,
+      "width": 984.5075073242188,
       "height": 124.59397347123519,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -1216,20 +1224,20 @@
       "index": "b0c",
       "roundness": null,
       "seed": 1521125436,
-      "version": 877,
-      "versionNonce": 183456673,
+      "version": 881,
+      "versionNonce": 1680987256,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1747187173954,
+      "updated": 1747327805602,
       "link": null,
       "locked": false,
-      "text": "Video Service\n• Fetch newest video from YouTube playlist\n• Extract the video's ID (check if video_id.json already contains ID)",
+      "text": "Video Service\n• Fetch latest video from YouTube playlist\n• Extract the video's ID (check if json already contains ID)",
       "fontSize": 33.22505959232938,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "Video Service\n• Fetch newest video from YouTube playlist\n• Extract the video's ID (check if video_id.json already contains ID)",
+      "originalText": "Video Service\n• Fetch latest video from YouTube playlist\n• Extract the video's ID (check if json already contains ID)",
       "autoResize": true,
       "lineHeight": 1.25
     },
@@ -1266,10 +1274,10 @@
     {
       "id": "n29i17uOjuf-1m3BZ59PO",
       "type": "arrow",
-      "x": 639.1493080451911,
-      "y": 117.12331009267095,
-      "width": 763.0061825237937,
-      "height": 2.877444629887961,
+      "x": 684.8749960866827,
+      "y": 115.8954065419186,
+      "width": 730.1653609731196,
+      "height": 2.0287672846593097,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -1285,8 +1293,8 @@
         "type": 2
       },
       "seed": 1362641615,
-      "version": 1518,
-      "versionNonce": 745121057,
+      "version": 1938,
+      "versionNonce": 505589350,
       "isDeleted": false,
       "boundElements": [
         {
@@ -1294,7 +1302,7 @@
           "id": "GbxO2G9GpAVxplkW9TgFk"
         }
       ],
-      "updated": 1747187483431,
+      "updated": 1747327933871,
       "link": null,
       "locked": false,
       "points": [
@@ -1303,20 +1311,20 @@
           0
         ],
         [
-          763.0061825237937,
-          -2.877444629887961
+          730.1653609731196,
+          -2.0287672846593097
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
         "elementId": "4pa3qd_oZaxROmc1--JAy",
-        "focus": -0.05066285450398278,
-        "gap": 9.474291395331988
+        "focus": -0.04957693873663556,
+        "gap": 9.011472152035367
       },
       "endBinding": {
         "elementId": "ZabgOdKdrc4grzTOXaalC",
-        "focus": -0.2209124926676265,
-        "gap": 5.532978722055077
+        "focus": -0.03061298408878394,
+        "gap": 3.7433180307634757
       },
       "startArrowhead": null,
       "endArrowhead": "triangle",

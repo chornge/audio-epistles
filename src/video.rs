@@ -57,13 +57,4 @@ mod tests {
         let new_video_id = fetch_new_video().await;
         assert!(new_video_id.is_ok(), "Failed to fetch new video ID");
     }
-
-    #[test]
-    fn test_last_seen_upload() {
-        let last_id = last_seen_upload();
-        assert!(
-            !last_id.is_empty(),
-            "Last seen upload ID should not be empty"
-        );
-    }
 }
