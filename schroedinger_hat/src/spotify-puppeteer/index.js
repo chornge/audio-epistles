@@ -162,9 +162,22 @@ async function postEpisode(youtubeVideoInfo) {
     await clickSelector(page, '::-p-xpath(//span[contains(text(), "Continue with Spotify")]/parent::button)');
     logger.info('-- Logging in');
 
+    await sleepSeconds(2);
     await page.waitForSelector('#login-username');
     await page.type('#login-username', env.SPOTIFY_EMAIL);
+    
+    await sleepSeconds(2);
+    await clickSelector(page, 'button[id="login-button"]');
+    
+    await sleepSeconds(5);
+    await page.waitForSelector('button[data-encore-id="buttonTertiary"]');
+    await clickSelector(page, 'button[data-encore-id="buttonTertiary"]');
+    logger.info('-- Clicked "Log in with a password" button');
+
+    await sleepSeconds(3);
+    await page.waitForSelector('#login-password');
     await page.type('#login-password', env.SPOTIFY_PASSWORD);
+
     await sleepSeconds(1);
     await clickSelector(page, 'button[id="login-button"]');
   }
@@ -175,7 +188,7 @@ async function postEpisode(youtubeVideoInfo) {
   }
 
   async function waitForNewEpisodeWizard() {
-    await sleepSeconds(1);
+    await sleepSeconds(3);
     logger.info('-- Waiting for episode wizard to open');
     return page.waitForSelector('::-p-xpath(//span[contains(text(),"Select a file")])').then(() => {
       logger.info('-- Episode wizard is opened');
@@ -220,7 +233,13 @@ async function postEpisode(youtubeVideoInfo) {
     }
 
     if (env.LOAD_THUMBNAIL) {
+      // Wait for the episode art "Change" button to appear, then click it
       logger.info('-- Uploading episode art');
+      await sleepSeconds(2);
+      const changeButtonSelector = 'button[data-encore-id="buttonSecondary"]';
+      await clickSelector(page, changeButtonSelector);
+
+      await sleepSeconds(2);
       const imageUploadInputSelector = 'input[type="file"][accept*="image"]';
       await page.waitForSelector(imageUploadInputSelector);
       const inputEpisodeArt = await page.$(imageUploadInputSelector);
@@ -229,6 +248,7 @@ async function postEpisode(youtubeVideoInfo) {
       logger.info('-- Saving uploaded episode art');
       await clickSelector(page, '::-p-xpath(//span[text()="Save"]/parent::button)');
 
+      await sleepSeconds(6);
       logger.info('-- Waiting for uploaded episode art to be saved');
       await page.waitForSelector('::-p-xpath(//div[@aria-label="image uploader"])', {
         hidden: true,

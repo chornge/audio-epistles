@@ -50,10 +50,18 @@ configureLogger();
 main()
   .then(async () => {
     logger.info('Finished successfully.');
+    logger.info('');
+    logger.info('');
+    logger.info('------------------------------------------------');
+    logger.info('');
     await exitSuccess();
   })
   .catch(async (err) => {
     logger.info(`Posting youtube episode to spotify failed: ${err}`);
+    logger.info('');
+    logger.info('');
+    logger.info('------------------------------------------------');
+    logger.info('');
     await exitFailure();
   });
 
