@@ -1,15 +1,17 @@
 use anyhow::Result;
+use dotenvy::dotenv;
 use regex::Regex;
 use reqwest::get;
 use serde_json::Value;
 use std::{env, fs};
 
 pub async fn fetch_new_video() -> Result<String> {
-    // Fetch playlist ID from environment variable
+    // Dynamically construct playlist URL
+    dotenv().ok();
     let playlist_id = env::var("SERMON_PLAYLIST_ID").expect("SERMON_PLAYLIST_ID is not set");
 
-    // Dynamically construct playlist URL
     let playlist_url = format!("https://www.youtube.com/playlist?list={}", playlist_id);
+
     let response = get(playlist_url)
         .await
         .expect("Failed to send request for playlist");
@@ -30,12 +32,15 @@ pub async fn fetch_new_video() -> Result<String> {
 }
 
 pub fn last_seen_upload() -> String {
-    let episode_json = fs::read_to_string("video_id.json").expect("Failed to read video_id.json");
-    let episode_data: Value = serde_json::from_str(&episode_json).expect("video_id.json is blank");
+    let episode_json = fs::read_to_string("schroedinger_hat/episode.son")
+        .expect("Failed to read schroedinger_hat/episode.json");
+
+    let episode_data: Value =
+        serde_json::from_str(&episode_json).expect("schroedinger_hat/episode.json is blank");
 
     episode_data["id"]
         .as_str()
-        .expect("Missing or invalid 'id' field in video_id.json")
+        .expect("Missing or invalid 'id' field in schroedinger_hat/episode.json")
         .to_string()
 }
 #[cfg(test)]
