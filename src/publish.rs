@@ -11,7 +11,7 @@ pub async fn process_video(new_video: String) -> Result<()> {
 #[allow(unused_variables)]
 pub async fn publish(video_json: &str) -> Result<()> {
     // Read the existing JSON file
-    let file_path = "video_id.json";
+    let file_path = "schroedinger_hat/episode.json";
     let mut video_data = if let Ok(contents) = fs::read_to_string(file_path) {
         serde_json::from_str(&contents).unwrap_or_else(|_| json!({ "id": "" }))
     } else {
@@ -20,8 +20,10 @@ pub async fn publish(video_json: &str) -> Result<()> {
 
     // Update the JSON with the new video ID
     video_data["id"] = json!(video_json);
+
+    // Write the updated JSON back to schroedinger_hat/episode.json
     fs::write(file_path, video_data.to_string())?;
-    println!("Update video_id.json with: {}", video_json);
+    println!("Update schroedinger_hat/episode.json with: {}", video_json);
 
     // Publish to Spotify
     println!("Processing {}...", video_json);
@@ -35,7 +37,9 @@ pub async fn publish(video_json: &str) -> Result<()> {
     if output.status.success() {
         println!("Publish to Spotify succeeded!");
     } else {
-        eprintln!("Publish to Spotify failed!");
+        // Capture and display stderr
+        let error_message = String::from_utf8_lossy(&output.stderr);
+        eprintln!("Publish to Spotify failed! Error: {}", error_message);
     }
 
     Ok(())
