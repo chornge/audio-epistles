@@ -162,9 +162,22 @@ async function postEpisode(youtubeVideoInfo) {
     await clickSelector(page, '::-p-xpath(//span[contains(text(), "Continue with Spotify")]/parent::button)');
     logger.info('-- Logging in');
 
+    await sleepSeconds(2);
     await page.waitForSelector('#login-username');
     await page.type('#login-username', env.SPOTIFY_EMAIL);
+    
+    await sleepSeconds(2);
+    await clickSelector(page, 'button[id="login-button"]');
+    
+    await sleepSeconds(5);
+    await page.waitForSelector('button[data-encore-id="buttonTertiary"]');
+    await clickSelector(page, 'button[data-encore-id="buttonTertiary"]');
+    logger.info('-- Clicked "Log in with a password" button');
+
+    await sleepSeconds(3);
+    await page.waitForSelector('#login-password');
     await page.type('#login-password', env.SPOTIFY_PASSWORD);
+
     await sleepSeconds(1);
     await clickSelector(page, 'button[id="login-button"]');
   }
