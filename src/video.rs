@@ -6,8 +6,8 @@ use serde_json::Value;
 use std::{env, fs};
 
 pub async fn fetch_new_video() -> Result<String> {
-    // Dynamically construct playlist URL
     dotenv().ok();
+
     let playlist_id = env::var("SERMON_PLAYLIST_ID").expect("SERMON_PLAYLIST_ID is not set");
 
     let playlist_url = format!("https://www.youtube.com/playlist?list={}", playlist_id);
@@ -15,19 +15,19 @@ pub async fn fetch_new_video() -> Result<String> {
     let response = get(playlist_url)
         .await
         .expect("Failed to send request for playlist");
+
     let body = response
         .text()
         .await
         .expect("Failed to read response body for playlist");
 
-    // Extract the most recent video's ID
     let re = Regex::new(r#""videoId":"([^"]+)""#).unwrap();
     let video_id = re
         .captures_iter(&body)
         .filter_map(|cap| cap.get(1).map(|id| id.as_str().to_string()))
         .last();
 
-    println!("Most recent video ID: {:?}", video_id);
+    println!("Latest video ID: {:?}", video_id);
     Ok(video_id.expect("No video ID found in playlist response"))
 }
 
@@ -46,15 +46,41 @@ pub fn last_seen_upload() -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::fs::{self, File};
+    use std::io::Write;
+    use tempfile::tempdir;
 
-    #[tokio::test]
-    #[ignore] // Requires actual playlist ID
-    async fn test_fetch_new_video() {
-        let playlist_id =
-            std::env::var("SERMON_PLAYLIST_ID").unwrap_or_else(|_| "playlist_id".to_string());
-        std::env::set_var("SERMON_PLAYLIST_ID", playlist_id);
+    #[test]
+    fn test_last_seen_upload_valid_json() {
+        let dir = tempdir().unwrap();
+        let file_path = dir.path().join("episode.json");
+        let json_content = r#"{"id":"video_id"}"#;
+        let mut file = File::create(&file_path).unwrap();
+        file.write_all(json_content.as_bytes()).unwrap();
 
-        let new_video_id = fetch_new_video().await;
-        assert!(new_video_id.is_ok(), "Failed to fetch new video ID");
+        // Temporarily rename file to match expected path
+        let orig_path = "schroedinger_hat/episode.son";
+        fs::create_dir_all("schroedinger_hat").unwrap();
+        fs::copy(&file_path, orig_path).unwrap();
+
+        let id = last_seen_upload();
+        assert_eq!(id, "video_id");
+
+        // Clean up
+        fs::remove_file(orig_path).unwrap();
+    }
+
+    #[test]
+    #[should_panic(expected = "schroedinger_hat/episode.json is blank")]
+    fn test_last_seen_upload_invalid_json() {
+        fs::create_dir_all("schroedinger_hat").unwrap();
+        let orig_path = "schroedinger_hat/episode.son";
+        let mut file = File::create(orig_path).unwrap();
+        file.write_all(b"not json").unwrap();
+
+        last_seen_upload();
+
+        // Clean up
+        let _ = fs::remove_file(orig_path);
     }
 }
