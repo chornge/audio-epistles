@@ -13,7 +13,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '20'
 
       - name: Install Dependencies
         working-directory: schroedinger-hat
@@ -25,6 +25,7 @@ jobs:
           SPOTIFY_EMAIL: ${{ secrets.SPOTIFY_EMAIL }}
           SPOTIFY_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD }}
           SERMON_PLAYLIST_ID: ${{ secrets.SERMON_PLAYLIST_ID }}
+          ALLOW_EPISODE_COMMENTS: false
           SAVE_AS_DRAFT: true
           LOAD_THUMBNAIL: true
           URL_IN_DESCRIPTION: false
