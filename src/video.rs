@@ -32,7 +32,7 @@ pub async fn fetch_new_video() -> Result<String> {
 }
 
 pub fn last_seen_upload() -> String {
-    let episode_json = fs::read_to_string("schroedinger_hat/episode.son")
+    let episode_json = fs::read_to_string("schroedinger_hat/episode.json")
         .expect("Failed to read schroedinger_hat/episode.json");
 
     let episode_data: Value =
