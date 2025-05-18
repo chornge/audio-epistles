@@ -2,6 +2,7 @@
 name = "audio_epistles"
 version = "1.1.2"
 edition = "2021"
+license = "MIT"
 authors = [
     "Christian Mbaba <christianmbaba@live.com>",
     "Dominion Chapel Houston <media@dominionchapel.org>"
