@@ -16,11 +16,11 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
-        working-directory: schroedinger_hat
+        working-directory: schroedinger-hat
         run: npm install
 
       - name: Publish
-        working-directory: schroedinger_hat
+        working-directory: schroedinger-hat
         env:
           SPOTIFY_EMAIL: ${{ secrets.SPOTIFY_EMAIL }}
           SPOTIFY_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD }}
