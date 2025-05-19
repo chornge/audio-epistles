@@ -212,6 +212,7 @@ async function postEpisode(youtubeVideoInfo) {
   async function fillDetails() {
     logger.info('-- Adding title');
     const titleInputSelector = '#title-input';
+    await sleepSeconds(3);
     await page.waitForSelector(titleInputSelector, { visible: true });
     // Wait some time so any field refresh doesn't mess up with our input
     await sleepSeconds(2);
@@ -269,9 +270,9 @@ async function postEpisode(youtubeVideoInfo) {
       await clickSelector(page, promotionalContentCheckboxLabelSelector);
     }
 
-    logger.info('-- Setting allow comments)');
+    logger.info('-- Setting allow comments');
     const allowCommentsCheckboxXPath = '//fieldset[.//legend/span[text()="Comments"]]//input[@type="checkbox" and @data-encore-id="visuallyHidden"]';
-    await page.waitForSelector(`::p-xpath(${allowCommentsCheckboxXPath})`)
+    await page.waitForSelector(`::-p-xpath(${allowCommentsCheckboxXPath})`)
     const allowCommentsChecked = await page.$eval(
       `::-p-xpath(${allowCommentsCheckboxXPath})`,
       el => el.checked
