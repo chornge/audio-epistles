@@ -6,8 +6,8 @@ use serde_json::Value;
 use std::{env, fs};
 
 pub async fn fetch_new_video() -> Result<String> {
-    // Dynamically construct playlist URL
     dotenv().ok();
+
     let playlist_id = env::var("SERMON_PLAYLIST_ID").expect("SERMON_PLAYLIST_ID is not set");
 
     let playlist_url = format!("https://www.youtube.com/playlist?list={}", playlist_id);
@@ -15,46 +15,31 @@ pub async fn fetch_new_video() -> Result<String> {
     let response = get(playlist_url)
         .await
         .expect("Failed to send request for playlist");
+
     let body = response
         .text()
         .await
         .expect("Failed to read response body for playlist");
 
-    // Extract the most recent video's ID
     let re = Regex::new(r#""videoId":"([^"]+)""#).unwrap();
     let video_id = re
         .captures_iter(&body)
         .filter_map(|cap| cap.get(1).map(|id| id.as_str().to_string()))
         .last();
 
-    println!("Most recent video ID: {:?}", video_id);
+    println!("Latest video ID: {:?}", video_id);
     Ok(video_id.expect("No video ID found in playlist response"))
 }
 
 pub fn last_seen_upload() -> String {
-    let episode_json = fs::read_to_string("schroedinger_hat/episode.son")
-        .expect("Failed to read schroedinger_hat/episode.json");
+    let episode_json = fs::read_to_string("schroedinger-hat/episode.json")
+        .expect("Failed to read schroedinger-hat/episode.json");
 
     let episode_data: Value =
-        serde_json::from_str(&episode_json).expect("schroedinger_hat/episode.json is blank");
+        serde_json::from_str(&episode_json).expect("schroedinger-hat/episode.json is blank");
 
     episode_data["id"]
         .as_str()
-        .expect("Missing or invalid 'id' field in schroedinger_hat/episode.json")
+        .expect("Missing or invalid 'id' field in schroedinger-hat/episode.json")
         .to_string()
-}
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[tokio::test]
-    #[ignore] // Requires actual playlist ID
-    async fn test_fetch_new_video() {
-        let playlist_id =
-            std::env::var("SERMON_PLAYLIST_ID").unwrap_or_else(|_| "playlist_id".to_string());
-        std::env::set_var("SERMON_PLAYLIST_ID", playlist_id);
-
-        let new_video_id = fetch_new_video().await;
-        assert!(new_video_id.is_ok(), "Failed to fetch new video ID");
-    }
 }
