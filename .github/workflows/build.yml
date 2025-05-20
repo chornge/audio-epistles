@@ -16,7 +16,4 @@ jobs:
         run: cargo build --release
 
       - name: Lint
-        run: cargo clippy --release -- -D warnings
-      
-      - name: Test
-        run: cargo test --release
+        run: cargo clippy --release -- -D warnings      

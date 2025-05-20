@@ -10,6 +10,21 @@ pub async fn process_video(new_video: String) -> Result<()> {
 
 #[allow(unused_variables)]
 pub async fn publish(video_json: &str) -> Result<()> {
+    // Read the existing JSON file
+    let file_path = "schroedinger-hat/episode.json";
+    let mut video_data = if let Ok(contents) = fs::read_to_string(file_path) {
+        serde_json::from_str(&contents).unwrap_or_else(|_| json!({ "id": "" }))
+    } else {
+        json!({ "id": "" }) // Default if file doesn't exist
+    };
+
+    // Update the JSON with the new video ID
+    video_data["id"] = json!(video_json);
+
+    // Write the updated JSON to schroedinger-hat/episode.json
+    fs::write(file_path, video_data.to_string())?;
+    println!("Update schroedinger-hat/episode.json with: {}", video_json);
+
     // Publish to Spotify
     println!("Processing {}...", video_json);
     let output = Command::new("npm")
@@ -20,20 +35,6 @@ pub async fn publish(video_json: &str) -> Result<()> {
         .output()?;
 
     if output.status.success() {
-        // Read the existing JSON file
-        let file_path = "schroedinger-hat/episode.json";
-        let mut video_data = if let Ok(contents) = fs::read_to_string(file_path) {
-            serde_json::from_str(&contents).unwrap_or_else(|_| json!({ "id": "" }))
-        } else {
-            json!({ "id": "" }) // Default if file doesn't exist
-        };
-
-        // Update the JSON with the new video ID
-        video_data["id"] = json!(video_json);
-
-        // Write the updated JSON to schroedinger-hat/episode.json
-        fs::write(file_path, video_data.to_string())?;
-        println!("Update schroedinger-hat/episode.json with: {}", video_json);
         println!("Publish to Spotify succeeded!");
     } else {
         // Capture and display stderr
