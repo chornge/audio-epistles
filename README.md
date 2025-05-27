@@ -6,7 +6,7 @@
 
 ## Architecture
 
-![Design Doc](./DESIGN-DOC.png)
+![Design Doc](./DESIGN-DOC.excalidraw.png)
 
 - **Video Service:** Fetches the latest video ID from a YouTube playlist.
 - **Publish Service:** Updates the local JSON state and triggers the Schroedinger-Hat API to process and upload the sermon to Spotify.
