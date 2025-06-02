@@ -9,7 +9,7 @@ An automated service for fetching the latest video from a YouTube playlist, extr
 ![Design Doc](./DESIGN-DOC.excalidraw.png)
 
 - **Video Service:** Fetches the latest video ID from a YouTube playlist.
-- **Publish Service:** Updates the local JSON state and triggers the Schroedinger-Hat API to process and upload the sermon to Spotify.
+- **Publish Service:** Updates the local JSON state and triggers the Schroedinger-Hat API to process and uploads to Spotify.
 - **Schroedinger-Hat API:** Bundles audio, title, description, and thumbnail, then uploads the episode to Spotify/Anchor.fm.
 - **CronJob:** Triggers the application every hour.
 
