@@ -7,12 +7,11 @@ const defaultValues = {
   SPOTIFY_LOGIN: true,
   SPOTIFY_EMAIL: '',
   SPOTIFY_PASSWORD: '',
-  UPLOAD_TIMEOUT: 60 * 10 * 1000,
+  UPLOAD_TIMEOUT: 60 * 5 * 1000,
   SAVE_AS_DRAFT: true,
   LOAD_THUMBNAIL: true,
   IS_EXPLICIT: false,
   IS_SPONSORED: false,
-  ALLOW_EPISODE_COMMENTS: false,
   URL_IN_DESCRIPTION: false,
   POSTPROCESSOR_ARGS: '',
   SET_PUBLISH_DATE: false,
@@ -22,7 +21,7 @@ const defaultValues = {
   THUMBNAIL_FILE_TEMPLATE: 'thumbnail.%(ext)s',
   PUPPETEER_HEADLESS: true,
   // NOTE: The user agent should probably be updated regularly, for example when updating puppeteer version
-  USER_AGENT: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+  USER_AGENT: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36',
 };
 
 const dotEnvVariables = parseDotEnvVariables();
@@ -78,7 +77,6 @@ module.exports = {
   LOAD_THUMBNAIL: getBoolean(getEnvironmentVariable('LOAD_THUMBNAIL')),
   IS_EXPLICIT: getBoolean(getEnvironmentVariable('IS_EXPLICIT')),
   IS_SPONSORED: getBoolean(getEnvironmentVariable('IS_SPONSORED')),
-  ALLOW_EPISODE_COMMENTS: getBoolean(getEnvironmentVariable('ALLOW_EPISODE_COMMENTS')),
   URL_IN_DESCRIPTION: getBoolean(getEnvironmentVariable('URL_IN_DESCRIPTION')),
   POSTPROCESSOR_ARGS: getEnvironmentVariable('POSTPROCESSOR_ARGS'),
   SET_PUBLISH_DATE: getBoolean(getEnvironmentVariable('SET_PUBLISH_DATE')),

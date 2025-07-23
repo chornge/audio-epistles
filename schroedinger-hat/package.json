@@ -1,6 +1,6 @@
 {
   "name": "youtube-to-spotify",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "Github action and general-purpose tool to publish youtube video as spotify episode",
   "main": "src/index.js",
   "scripts": {
@@ -8,10 +8,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "puppeteer": "24.8.2",
-    "youtube-dl-exec": "3.0.21",
-    "dotenv": "16.5.0",
-    "log4js": "6.9.1"
+    "dotenv": "16.4.5",
+    "log4js": "^6.9.1",
+    "progress-estimator": "0.3.1",
+    "puppeteer": "24.10.0",
+    "youtube-dl-exec": "3.0.20"
   },
   "repository": {
     "type": "git",
@@ -24,11 +25,11 @@
     "youtube"
   ],
   "devDependencies": {
-    "prettier": "2.8.4",
     "eslint": "8.36.0",
     "eslint-config-airbnb-base": "15.0.0",
-    "eslint-plugin-import": "2.27.5",
     "eslint-config-prettier": "8.7.0",
-    "eslint-plugin-prettier": "4.2.1"
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-prettier": "4.2.1",
+    "prettier": "2.8.4"
   }
 }

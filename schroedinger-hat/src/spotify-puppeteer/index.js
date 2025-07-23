@@ -55,7 +55,11 @@ async function postEpisode(youtubeVideoInfo) {
 
   try {
     logger.info('Launching puppeteer');
-    browser = await puppeteer.launch({ args: ['--no-sandbox'], headless: env.PUPPETEER_HEADLESS });
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox'],
+      headless: env.PUPPETEER_HEADLESS,
+      protocolTimeout: env.UPLOAD_TIMEOUT,
+    });
 
     page = await openNewPage('https://creators.spotify.com/pod/dashboard/episode/wizard');
 
@@ -111,12 +115,14 @@ async function postEpisode(youtubeVideoInfo) {
 
   async function openNewPage(url) {
     const newPage = await browser.newPage();
-    /* The reason we set user agent is to avoid sites to detect that automation is used.
-     * For example, Spotify might sometimes show different page for login with the default user agent for headless puppeteer.
+    /* The reason we might set user agent is to avoid sites to detect that automation is used.
      * The default user agent for headless puppeteer looks something like:
      * Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/131.0.0.0 Safari/537.36
+     * We will set a custom user agent only if it is defined
      */
-    await newPage.setUserAgent(env.USER_AGENT);
+    if (env.USER_AGENT) {
+      await newPage.setUserAgent(env.USER_AGENT);
+    }
     await newPage.goto(url);
     await newPage.setViewport({ width: 2560, height: 1440 });
     return newPage;
@@ -160,26 +166,99 @@ async function postEpisode(youtubeVideoInfo) {
   async function spotifyLogin() {
     logger.info('-- Accessing new Spotify login page for podcasts');
     await clickSelector(page, '::-p-xpath(//span[contains(text(), "Continue with Spotify")]/parent::button)');
+    await waitForNavigationOrIgnore(page);
+    // reason: waiting for password field to disappear if spotify does not want to show it
+    await sleepSeconds(2);
     logger.info('-- Logging in');
 
-    await sleepSeconds(2);
     await page.waitForSelector('#login-username');
     await page.type('#login-username', env.SPOTIFY_EMAIL);
-    
-    await sleepSeconds(2);
-    await clickSelector(page, 'button[id="login-button"]');
-    
-    await sleepSeconds(5);
-    await page.waitForSelector('button[data-encore-id="buttonTertiary"]');
-    await clickSelector(page, 'button[data-encore-id="buttonTertiary"]');
-    logger.info('-- Clicked "Log in with a password" button');
 
-    await sleepSeconds(3);
-    await page.waitForSelector('#login-password');
-    await page.type('#login-password', env.SPOTIFY_PASSWORD);
+    const passwordInputFieldSelector = '#login-password';
+    const passwordInputField = await page.$(passwordInputFieldSelector);
+    const existsPasswordInputField = !!passwordInputField;
 
+    if (existsPasswordInputField) {
+      await page.type(passwordInputFieldSelector, env.SPOTIFY_PASSWORD);
+    }
+
+    await clickLoginOrContinueButtonUntilItsNotPresent();
+
+    let shouldEnterCode = false;
+    try {
+      await waitForText(page, 'Enter the 6-digit code', { polling: 100 });
+      shouldEnterCode = true;
+    } catch (e) {
+      logger.info('-- Either logged in or error during login attempt');
+      // ignore
+    }
+
+    if (shouldEnterCode) {
+      logger.info('-- Logging in using the option "Log in with a password"');
+      await clickLoginWithAPasswordRepeatedlyIfErrorOccurs();
+      // email is already entered, only the password remains to be entered
+      await page.waitForSelector(passwordInputFieldSelector);
+      await page.type(passwordInputFieldSelector, env.SPOTIFY_PASSWORD);
+      await clickLoginOrContinueButtonUntilItsNotPresent();
+    }
+  }
+
+  /**
+   * Sometimes Spotify throws error during logging, clicking the log in or continue button again might help.
+   */
+  async function clickLoginOrContinueButtonUntilItsNotPresent() {
     await sleepSeconds(1);
-    await clickSelector(page, 'button[id="login-button"]');
+    const loginOrContinueButtonSelector = 'button[id="login-button"]';
+    await page.waitForSelector(loginOrContinueButtonSelector, { visible: true });
+    await clickSelector(page, loginOrContinueButtonSelector);
+
+    const maxClicks = 15;
+    let currentClick = 0;
+    while (currentClick < maxClicks) {
+      const existsError = false;
+      try {
+        await waitForText(page, 'Something went wrong', { timeout: 10 * 1000 });
+      } catch (e) {
+        // ignore
+      }
+      if (!existsError) {
+        break;
+      }
+
+      logger.info(
+        '-- The error "Oops! Something went wrong" happened while logging in. Clicking login or continue button again.'
+      );
+      await clickSelector(page, loginOrContinueButtonSelector);
+      currentClick += 1;
+      await sleepSeconds(1);
+      await waitForNavigationOrIgnore(page);
+    }
+  }
+
+  /**
+   * Clicking on this button after navigating to this page is not working.
+   * That's why we click multiple time until the click is actually working
+   * This is a problem with Spotify, not this script or puppeteer.
+   */
+  async function clickLoginWithAPasswordRepeatedlyIfErrorOccurs() {
+    const loginWithPasswordButtonSelector = '::-p-xpath(//button[contains(text(),"Log in with a password")])';
+    await page.waitForSelector(loginWithPasswordButtonSelector, { visible: true });
+
+    let loginWithPasswordButton = await page.$(loginWithPasswordButtonSelector);
+    const maxClickTries = 15;
+    let currentClick = 0;
+    while (loginWithPasswordButton) {
+      if (currentClick >= maxClickTries) {
+        throw new Error(
+          `Clicks on button "Log in with a password" exceeded the maximum allowed clicks: ${maxClickTries}`
+        );
+      }
+      currentClick += 1;
+      await sleepSeconds(1);
+      await clickSelector(page, loginWithPasswordButtonSelector);
+      await waitForNavigationOrIgnore(page);
+      loginWithPasswordButton = await page.$(loginWithPasswordButtonSelector);
+    }
   }
 
   function acceptSpotifyAuth() {
@@ -188,7 +267,7 @@ async function postEpisode(youtubeVideoInfo) {
   }
 
   async function waitForNewEpisodeWizard() {
-    await sleepSeconds(3);
+    await sleepSeconds(1);
     logger.info('-- Waiting for episode wizard to open');
     return page.waitForSelector('::-p-xpath(//span[contains(text(),"Select a file")])').then(() => {
       logger.info('-- Episode wizard is opened');
@@ -212,7 +291,6 @@ async function postEpisode(youtubeVideoInfo) {
   async function fillDetails() {
     logger.info('-- Adding title');
     const titleInputSelector = '#title-input';
-    await sleepSeconds(3);
     await page.waitForSelector(titleInputSelector, { visible: true });
     // Wait some time so any field refresh doesn't mess up with our input
     await sleepSeconds(2);
@@ -234,13 +312,7 @@ async function postEpisode(youtubeVideoInfo) {
     }
 
     if (env.LOAD_THUMBNAIL) {
-      // Wait for the episode art "Change" button to appear, then click it
       logger.info('-- Uploading episode art');
-      await sleepSeconds(2);
-      const changeButtonSelector = 'button[data-encore-id="buttonSecondary"]';
-      await clickSelector(page, changeButtonSelector);
-
-      await sleepSeconds(2);
       const imageUploadInputSelector = 'input[type="file"][accept*="image"]';
       await page.waitForSelector(imageUploadInputSelector);
       const inputEpisodeArt = await page.$(imageUploadInputSelector);
@@ -249,9 +321,8 @@ async function postEpisode(youtubeVideoInfo) {
       logger.info('-- Saving uploaded episode art');
       await clickSelector(page, '::-p-xpath(//span[text()="Save"]/parent::button)');
 
-      await sleepSeconds(6);
       logger.info('-- Waiting for uploaded episode art to be saved');
-      await page.waitForSelector('::-p-xpath(//div[@aria-label="image uploader"])', {
+      await page.waitForSelector('::-p-xpath(//div[@data-encore-id="dialogConfirmation"])', {
         hidden: true,
         timeout: env.UPLOAD_TIMEOUT,
       });
@@ -268,22 +339,6 @@ async function postEpisode(youtubeVideoInfo) {
       const promotionalContentCheckboxLabelSelector =
         '::-p-xpath(//input[@name="podcastEpisodeContainsSponsoredContent"]/parent::*)';
       await clickSelector(page, promotionalContentCheckboxLabelSelector);
-    }
-
-    logger.info('-- Setting allow comments');
-    const allowCommentsCheckboxXPath = '//fieldset[.//legend/span[text()="Comments"]]//input[@type="checkbox" and @data-encore-id="visuallyHidden"]';
-    await page.waitForSelector(`::-p-xpath(${allowCommentsCheckboxXPath})`)
-    const allowCommentsChecked = await page.$eval(
-      `::-p-xpath(${allowCommentsCheckboxXPath})`,
-      el => el.checked
-    );
-
-    if (env.ALLOW_EPISODE_COMMENTS && !allowCommentsChecked) {
-      logger.info('-- Toggling allow-comments ON');
-      await clickSelector(page, `::-p-xpath(${allowCommentsCheckboxXPath})`);
-    } else if (!env.ALLOW_EPISODE_COMMENTS && allowCommentsChecked) {
-      logger.info('-- Toggling allow-comments OFF');
-      await clickSelector(page, `::-p-xpath(${allowCommentsCheckboxXPath})`);
     }
   }
 
@@ -373,6 +428,19 @@ function selectAll(page, selector) {
     selection.removeAllRanges();
     selection.addRange(range);
   }, selector);
+}
+
+async function waitForText(page, text, options = {}) {
+  await page.waitForFunction(`document.querySelector("body").innerText.includes("${text}")`, options);
+}
+
+async function waitForNavigationOrIgnore(page) {
+  try {
+    await page.waitForNavigation();
+  } catch (err) {
+    return false;
+  }
+  return true;
 }
 
 module.exports = {
