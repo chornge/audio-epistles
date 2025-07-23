@@ -23,10 +23,10 @@ pub async fn publish(video_json: &str) -> Result<()> {
 
     // Write the updated JSON to schroedinger-hat/episode.json
     fs::write(file_path, video_data.to_string())?;
-    println!("Update schroedinger-hat/episode.json with: {}", video_json);
+    println!("Update schroedinger-hat/episode.json with: {video_json}");
 
     // Publish to Spotify
-    println!("Processing {}...", video_json);
+    println!("Processing {video_json}...");
     let output = Command::new("npm")
         .arg("start")
         .current_dir("schroedinger-hat")
@@ -39,7 +39,7 @@ pub async fn publish(video_json: &str) -> Result<()> {
     } else {
         // Capture and display stderr
         let error_message = String::from_utf8_lossy(&output.stderr);
-        eprintln!("Publish to Spotify failed! Error: {}", error_message);
+        eprintln!("Publish to Spotify failed! Error: {error_message}");
     }
 
     Ok(())
