@@ -2,14 +2,14 @@
 
 ![CI/CD](https://github.com/chornge/audio-epistles/actions/workflows/build.yml/badge.svg?branch=main)
 
-**Audio Epistles** is an automated service for fetching the latest sermon video from a YouTube playlist, extracting its ID, and publishing the audio to Spotify/Anchor.fm via the Schroedinger-Hat API. The service is designed to run periodically (e.g., every hour via cron), ensuring new sermons are published reliably and without duplication.
+An automated service for fetching the latest video from a YouTube playlist, extracting its details, and publishing the audio to Spotify/Anchor.fm via the Schroedinger-Hat API. The service is designed to run periodically (e.g., every hour via cron), ensuring new podcasts are published reliably.
 
 ## Architecture
 
 ![Design Doc](./DESIGN-DOC.excalidraw.png)
 
 - **Video Service:** Fetches the latest video ID from a YouTube playlist.
-- **Publish Service:** Updates the local JSON state and triggers the Schroedinger-Hat API to process and upload the sermon to Spotify.
+- **Publish Service:** Updates the local JSON state and triggers the Schroedinger-Hat API to process and uploads to Spotify.
 - **Schroedinger-Hat API:** Bundles audio, title, description, and thumbnail, then uploads the episode to Spotify/Anchor.fm.
 - **CronJob:** Triggers the application every hour.
 

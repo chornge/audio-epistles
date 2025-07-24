@@ -10,12 +10,12 @@ async fn main() {
         Ok(video_id) => {
             if video_id != last_seen_upload() {
                 if let Err(e) = process_video(video_id).await {
-                    eprintln!("Failed to process new video: {}", e);
+                    eprintln!("Failed to process new video: {e}");
                 }
             }
         }
         Err(e) => {
-            eprintln!("Failed to fetch new video ID: {}", e);
+            eprintln!("Failed to fetch new video ID: {e}");
         }
     }
 }

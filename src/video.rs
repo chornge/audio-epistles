@@ -10,7 +10,7 @@ pub async fn fetch_new_video() -> Result<String> {
 
     let playlist_id = env::var("SERMON_PLAYLIST_ID").expect("SERMON_PLAYLIST_ID is not set");
 
-    let playlist_url = format!("https://www.youtube.com/playlist?list={}", playlist_id);
+    let playlist_url = format!("https://www.youtube.com/playlist?list={playlist_id}");
 
     let response = get(playlist_url)
         .await
@@ -27,7 +27,7 @@ pub async fn fetch_new_video() -> Result<String> {
         .filter_map(|cap| cap.get(1).map(|id| id.as_str().to_string()))
         .last();
 
-    println!("Latest video ID: {:?}", video_id);
+    println!("Latest video ID: {video_id:?}");
     Ok(video_id.expect("No video ID found in playlist response"))
 }
 
