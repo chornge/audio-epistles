@@ -50,13 +50,15 @@ cd audio-epistles
 touch .env
 ```
 
-Copy into .env (and replace with appropriate values)
+Copy the following into .env and replace with the appropriate values - Unsecure!
 
 ```
 SPOTIFY_EMAIL=email@spotify.com
 SPOTIFY_PASSWORD=password@spotify
 SERMON_PLAYLIST_ID=playlist@id
 ```
+
+More secure way is to host on Github/GitLab and store sensitive info as secrets.
 
 ## Automation
 
