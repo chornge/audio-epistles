@@ -197,7 +197,7 @@ async function postEpisode(youtubeVideoInfo) {
       logger.info('-- Logging in using the option "Log in with a password"');
       await clickLoginWithAPasswordRepeatedlyIfErrorOccurs();
       // email is already entered, only the password remains to be entered
-      await page.waitForSelector(passwordInputFieldSelector);
+      await sleepSeconds(6); // wait some time so any field refresh doesn't mess up with our input
       await page.type(passwordInputFieldSelector, env.SPOTIFY_PASSWORD);
       await clickLoginOrContinueButtonUntilItsNotPresent();
     }
