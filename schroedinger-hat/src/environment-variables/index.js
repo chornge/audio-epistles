@@ -9,7 +9,7 @@ const defaultValues = {
   SPOTIFY_PASSWORD: '',
   UPLOAD_TIMEOUT: 60 * 5 * 1000,
   SAVE_AS_DRAFT: true,
-  LOAD_THUMBNAIL: true,
+  LOAD_THUMBNAIL: false,
   IS_EXPLICIT: false,
   IS_SPONSORED: false,
   URL_IN_DESCRIPTION: false,
