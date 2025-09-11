@@ -1,4 +1,6 @@
+mod episode;
 mod publish;
+mod scheduler;
 mod video;
 
 use publish::process_video;
@@ -9,13 +11,13 @@ async fn main() {
     match fetch_new_video().await {
         Ok(video_id) => {
             if video_id != last_seen_upload() {
-                if let Err(e) = process_video(video_id).await {
-                    eprintln!("Failed to process new video: {e}");
+                if let Err(e) = process_video(&video_id).await {
+                    eprintln!("❌ Failed to process new video: {e}");
                 }
+            } else {
+                println!("No new video found since last publish.");
             }
         }
-        Err(e) => {
-            eprintln!("Failed to fetch new video ID: {e}");
-        }
+        Err(e) => eprintln!("❌ Failed to fetch new video ID: {e}"),
     }
 }

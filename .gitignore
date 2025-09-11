@@ -1,4 +1,7 @@
 .env
 .env.*
+*.log
+*.mp3
+*.mp4
 /target
 .vscode

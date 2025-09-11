@@ -1,8 +1,0 @@
-name: 'Upload Episode from YouTube To Spotify'
-description: 'An automation tool to publish your podcast from youtube to spotify'
-branding:
-  icon: 'upload-cloud'
-  color: 'green'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'

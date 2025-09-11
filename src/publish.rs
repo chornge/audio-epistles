@@ -1,46 +1,45 @@
 use anyhow::Result;
-use serde_json::json;
 use std::fs;
-use std::process::{Command, Stdio};
 
-pub async fn process_video(new_video: String) -> Result<()> {
-    publish(&new_video).await?;
+// use crate::scheduler;
+
+/// Process new video by its ID
+pub async fn process_video(video_id: &str) -> Result<()> {
+    publish(video_id).await?;
     Ok(())
 }
 
-#[allow(unused_variables)]
-pub async fn publish(video_json: &str) -> Result<()> {
-    // Read the existing JSON file
-    let file_path = "schroedinger-hat/episode.json";
+pub async fn publish(video_id: &str) -> Result<()> {
+    let file_path = "episode.json";
     let mut video_data = if let Ok(contents) = fs::read_to_string(file_path) {
-        serde_json::from_str(&contents).unwrap_or_else(|_| json!({ "id": "" }))
+        serde_json::from_str(&contents).unwrap_or_else(|_| serde_json::json!({ "id": "" }))
     } else {
-        json!({ "id": "" }) // Default if file doesn't exist
+        serde_json::json!({ "id": "" })
     };
-
-    // Update the JSON with the new video ID
-    video_data["id"] = json!(video_json);
-
-    // Write the updated JSON to schroedinger-hat/episode.json
+    video_data["id"] = serde_json::json!(video_id);
     fs::write(file_path, video_data.to_string())?;
-    println!("Update schroedinger-hat/episode.json with: {video_json}");
+    println!("📄 Updated episode.json with: {video_id}");
 
-    // Publish to Spotify
-    println!("Processing {video_json}...");
-    let output = Command::new("npm")
-        .arg("start")
-        .current_dir("schroedinger-hat")
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .output()?;
+    let (title, desc, video_path, duration) = crate::episode::fetch_metadata(video_id).await?;
+    println!("🎬 Title: {title}");
+    println!("🎬 Path: {video_path}");
+    println!("🎬 Duration: {duration}");
 
-    if output.status.success() {
-        println!("Publish to Spotify succeeded!");
+    let output_audio = "assets/audio.mp3";
+
+    if let Some((start, end)) = crate::episode::extract_sermon_chapter(&desc, duration) {
+        let duration = end - start;
+        println!("✂️ Trimming sermon chapter from {}s to {}s...", start, end);
+        crate::episode::trim_audio(&video_path, output_audio, start, duration)?;
+        println!("✅ Trimmed sermon audio saved to {}", output_audio);
     } else {
-        // Capture and display stderr
-        let error_message = String::from_utf8_lossy(&output.stderr);
-        eprintln!("Publish to Spotify failed! Error: {error_message}");
+        println!("🎧 No sermon chapter detected, converting full audio...");
+        crate::episode::convert_full_audio(&video_path, output_audio)?;
+        println!("✅ Full audio saved to {}", output_audio);
     }
+
+    // scheduler::schedule()?;
+    println!("✅ Publish completed via scheduler.");
 
     Ok(())
 }
