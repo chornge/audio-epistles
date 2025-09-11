@@ -2,8 +2,7 @@ use anyhow::Result;
 use dotenvy::dotenv;
 use regex::Regex;
 use reqwest::get;
-use serde_json::Value;
-use std::{env, fs};
+use std::env;
 
 pub async fn fetch_new_video() -> Result<String> {
     dotenv().ok();
@@ -21,10 +20,4 @@ pub async fn fetch_new_video() -> Result<String> {
         }
         None => Err(anyhow::anyhow!("No video ID found in playlist")),
     }
-}
-
-pub fn last_seen_upload() -> String {
-    let episode_json = fs::read_to_string("episode.json").expect("Failed to read episode.json");
-    let episode_data: Value = serde_json::from_str(&episode_json).expect("Invalid episode.json");
-    episode_data["id"].as_str().unwrap_or_default().to_string()
 }

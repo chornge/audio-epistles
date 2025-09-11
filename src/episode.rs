@@ -1,16 +1,16 @@
 use anyhow::{anyhow, Result};
 use regex::Regex;
-use std::fs;
 use std::process::Command;
+use std::{env, fs};
 use tokio::task;
 use youtube_dl::{YoutubeDl, YoutubeDlOutput};
 
-/// Download video + return (title, description, downloaded_path)
+/// Download video + return (title, description, downloaded_path and duration)
 pub async fn fetch_metadata(video_id: &str) -> Result<(String, String, String, u32)> {
     let video_url = format!("https://www.youtube.com/watch?v={video_id}");
     println!("🎥 Downloading video and metadata from {video_url}");
 
-    let project_root = std::env::current_dir()?;
+    let project_root = env::current_dir()?;
     let downloads_dir = project_root.join("assets");
 
     if !downloads_dir.exists() {
@@ -52,7 +52,18 @@ pub async fn fetch_metadata(video_id: &str) -> Result<(String, String, String, u
 
     match output {
         YoutubeDlOutput::SingleVideo(video) => {
-            let title = video.title.unwrap_or_else(|| "Untitled".to_string());
+            let raw_title = video.title.unwrap_or_else(|| "Untitled".to_string());
+
+            // Sanitize title (keep at most 2 segments if '|' is present)
+            let parts: Vec<String> = raw_title.split('|').map(|s| s.trim().to_string()).collect();
+
+            // Take at most 2 parts, join with a normalized " | "
+            let title = if parts.len() >= 2 {
+                parts[..2].join(" | ")
+            } else {
+                parts[0].clone()
+            };
+
             let desc = video.description.unwrap_or_default();
 
             // Borrow value to avoid moving
@@ -89,7 +100,7 @@ fn parse_timestamp(ts: &str) -> u32 {
     }
 }
 
-/// Extracts sermon chapter OR entire video if no chapters exist.
+/// Extracts sermon chapter OR full length if no chapters exist.
 pub fn extract_sermon_chapter(description: &str, video_end: u32) -> Option<(u32, u32)> {
     // Match all chapter lines: timestamp + title
     let re = Regex::new(r"(?m)^(\d{1,2}:\d{2}(?::\d{2})?)\s+(.+)$").ok()?;
@@ -99,14 +110,14 @@ pub fn extract_sermon_chapter(description: &str, video_end: u32) -> Option<(u32,
         .map(|cap| (parse_timestamp(&cap[1]), cap[2].to_lowercase()))
         .collect();
 
-    // If no chapters → return whole video
+    // If no chapters → return full length
     if chapters.is_empty() {
         return Some((0, video_end));
     }
 
     chapters.sort_by_key(|c| c.0);
 
-    // Find the first chapter name called "sermon"
+    // Find the first video chapter called "sermon"
     if let Some((i, (start, _))) = chapters
         .iter()
         .enumerate()
@@ -123,6 +134,7 @@ pub fn extract_sermon_chapter(description: &str, video_end: u32) -> Option<(u32,
     None
 }
 
+/// Trim audio using ffmpeg and save as MP3
 pub fn trim_audio(input: &str, output: &str, start: u32, duration: u32) -> Result<()> {
     let status = Command::new("ffmpeg")
         .args([
@@ -143,17 +155,6 @@ pub fn trim_audio(input: &str, output: &str, start: u32, duration: u32) -> Resul
     if status.success() {
         Ok(())
     } else {
-        Err(anyhow!("ffmpeg trimming failed {status}"))
-    }
-}
-
-pub fn convert_full_audio(input: &str, output: &str) -> Result<()> {
-    let status = Command::new("ffmpeg")
-        .args(["-y", "-i", input, "-vn", "-acodec", "libmp3lame", output])
-        .status()?;
-    if status.success() {
-        Ok(())
-    } else {
-        Err(anyhow!("ffmpeg full conversion failed"))
+        Err(anyhow!("ffmpeg trimming failed: {status}"))
     }
 }

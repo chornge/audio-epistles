@@ -9,10 +9,10 @@ An automated service for fetching the latest video from a YouTube playlist, extr
 ![Design Doc](./DESIGN-DOC.excalidraw.png)
 
 - **Video Service:** Fetches the latest video ID from a YouTube playlist.
-- **Publish Service:** Updates the local JSON state.
-- **Episode Service:** Extracts sermon chapter, trims audio and stores file.
-- **Scheduler Service:** Bundles audio file, title, description then uploads the episode to Spotify/Anchor.fm.
-- **CronJob:** Triggers the application every hour.
+- **Processor Service:** Checks if ID in Database and triggers the Chrome WebDriver.
+- **Episode Service:** Extracts sermon chapter, trims audio and stores audio file.
+- **WebDriver Service:** Bundles audio file, title & description into an episode to upload to Spotify/Anchor.fm.
+- **CronJob:** Runs the application every hour.
 
 ## Features/Qualities
 
@@ -24,24 +24,27 @@ An automated service for fetching the latest video from a YouTube playlist, extr
 
 ```
 audio_epistles/
+├── assets/                 # Stores downloaded files - video.mp4 and audio.mp3
 ├── src/
+│   ├── db.rs               # Performs DB operations
 │   ├── episode.rs          # Extracts and trims audio
 │   ├── main.rs             # Entry point
-│   ├── publish.rs          # Updates JSON and triggers scheduler
-│   ├── scheduler.rs        # Handles publishing to Spotify/Anchor.fm
+│   ├── processor.rs        # Triggers WebDriver
 │   └── video.rs            # Fetches latest video ID from YouTube
-├── .env                    # Stores sermon playlist ID
-├── episode.json            # Stores recently published episode
+│   ├── webdriver.rs        # Handles publishing to Spotify/Anchor.fm
+├── .env                    # Stores sermon playlist ID, audio file path & DB url
 ├── Cargo.toml
 ├── LICENSE
-└── README
+├── README
+└── videos.db               # Persistent Storage (stores last published video ID)
 ```
 
 ## Requirements
 
-- Rust
-- FFMPEG (`brew install ffmpeg`)
-- yt-dlp (`brew install yt-dlp`)
+- Rust ([rustup](https://rustup.rs/))
+- FFMPEG (`brew install ffmpeg` on macOS)
+- yt-dlp (`brew install yt-dlp` on macOS)
+- chromedriver (`brew install chromedriver` on macOS)
 
 ## Setup
 
@@ -50,25 +53,42 @@ audio_epistles/
 ```
 git clone https://github.com/chornge/audio-epistles.git
 cd audio-epistles
+touch videos.db
 touch .env
 ```
 
-Copy the following into .env and replace with the appropriate values - Unsecure!
+Copy the following into .env and replace with the appropriate values
 
 ```
 SPOTIFY_EMAIL=email@spotify.com
 SPOTIFY_PASSWORD=password@spotify
 SERMON_PLAYLIST_ID=playlist@id
+AUDIO_FILE=path/to/audio-epistles/assets/audio.mp3
+DB_URL=videos.db
 ```
 
-More secure way is to host on Github/GitLab and store sensitive info as secrets.
+More secure way to store Spotify credentials is to host on Github/GitLab & store as secrets.
 
 ## Automation
 
-To run every hour, add this to your crontab (crontab -e)
+To use cron, run `crontab -e`
+
+For every hour (on the hour), paste into crontab:
 
 ```
 0 * * * * cd audio-epistles && cargo run --release >> cron.log 2>&1
+```
+
+OR to run Weekdays (M-F) at noon, paste:
+
+```
+0 12 * * 1-5 cd audio-epistles && cargo run --release >> cron.log 2>&1
+```
+
+OR to run Wednesdays at 9:00pm, paste:
+
+```
+0 21 * * 3 cd audio-epistles && cargo run --release >> cron.log 2>&1
 ```
 
 ## Build & Run App
@@ -84,6 +104,4 @@ MIT
 
 ## Special Thanks
 
-A special shout-out to the authors and contributors of [Schroedinger-Hat](https://github.com/Schroedinger-Hat/youtube-to-spotify), whose work directly inspired this project.
-
-Your efforts in building and maintaining youtube-to-spotify make seamless publishing possible. Thank you for your dedication and open-source spirit!
+A special shout-out to the authors and contributors of [Schroedinger-Hat](https://github.com/Schroedinger-Hat/youtube-to-spotify), whose work directly inspired this project. Your efforts in building and maintaining youtube-to-spotify make seamless publishing possible. Thank you for your dedication and open-source spirit!

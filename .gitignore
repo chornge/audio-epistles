@@ -1,5 +1,6 @@
 .env
 .env.*
+*.db
 *.log
 *.mp3
 *.mp4
