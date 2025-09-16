@@ -26,17 +26,18 @@ An automated service for fetching the latest video from a YouTube playlist, extr
 audio_epistles/
 ├── assets/                 # Stores downloaded files - video.mp4 and audio.mp3
 ├── src/
-│   ├── db.rs               # Performs DB operations
+│   ├── db.rs               # Performs Database operations
 │   ├── episode.rs          # Extracts and trims audio
 │   ├── main.rs             # Entry point
 │   ├── processor.rs        # Triggers WebDriver
 │   └── video.rs            # Fetches latest video ID from YouTube
 │   ├── webdriver.rs        # Handles publishing to Spotify/Anchor.fm
 ├── .env                    # Stores sermon playlist ID, audio file path & DB url
+├── build.rs                # Ensures Database exists
 ├── Cargo.toml
 ├── LICENSE
 ├── README
-└── videos.db               # Persistent Storage (stores last published video ID)
+└── videos.db               # Stores last uploaded video ID
 ```
 
 ## Requirements
@@ -53,7 +54,6 @@ audio_epistles/
 ```
 git clone https://github.com/chornge/audio-epistles.git
 cd audio-epistles
-touch videos.db
 touch .env
 ```
 

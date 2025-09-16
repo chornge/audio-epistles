@@ -6,7 +6,8 @@ use std::env;
 use std::process::{Child, Command, Stdio};
 use tokio::time::{sleep, Duration};
 
-fn start_webdriver() -> std::io::Result<Child> {
+/// Start chromedriver process
+fn init() -> std::io::Result<Child> {
     Command::new("chromedriver")
         .arg("--port=64175")
         .stdout(Stdio::null())
@@ -21,14 +22,14 @@ async fn human_delay(min_ms: u64, max_ms: u64) {
     sleep(Duration::from_millis(delay_ms)).await;
 }
 
-/// Schedule episode on Spotify/Anchor.fm
+/// Upload episode to Spotify/Anchor.fm
 #[allow(deprecated)]
 #[allow(unused_variables)]
 #[allow(clippy::zombie_processes)]
-pub async fn schedule(title: &str) -> Result<(), error::CmdError> {
+pub async fn upload(title: &str) -> Result<(), error::CmdError> {
     dotenv().ok();
 
-    let mut webdriver = start_webdriver().expect("Failed to start chromedriver");
+    let mut webdriver = init().expect("Failed to start chromedriver");
 
     // Wait for chromedriver to be ready
     tokio::time::sleep(std::time::Duration::from_secs(5)).await;
@@ -119,7 +120,7 @@ pub async fn schedule(title: &str) -> Result<(), error::CmdError> {
     Ok(())
 }
 
-/// Handles saving episode as draft after filling in episode details
+/// Handles saving episode as draft on Spotify/Anchor.fm
 #[allow(deprecated)]
 pub async fn draft_episode(title: &str, client: &Client) -> Result<(), error::CmdError> {
     dotenv().ok();
@@ -198,7 +199,6 @@ pub async fn draft_episode(title: &str, client: &Client) -> Result<(), error::Cm
     println!("Description entered.");
     human_delay(1000, 2000).await;
 
-    println!("Episode details filled.");
     // schedule_episode(&client).await?;
 
     // Click 'Close' to trigger save-draft modal/dialog
@@ -223,7 +223,7 @@ pub async fn draft_episode(title: &str, client: &Client) -> Result<(), error::Cm
     }
 
     human_delay(1200, 2000).await;
-    println!("✅ Episode successfully saved as draft.");
+    println!("🕒 Episode successfully saved as draft.");
 
     // Allow Spotify UI to settle
     human_delay(3000, 5000).await;
@@ -240,16 +240,16 @@ async fn schedule_episode(client: &Client) -> Result<(), error::CmdError> {
         .await
     {
         next_button.click().await?;
-        println!("➡️ Clicked Next button.");
+        println!("Clicked 'Next'.");
     }
-    human_delay(19000, 22000).await; // Wait ~20 seconds
+    human_delay(19000, 22000).await; // Wait for UI to load
 
     // Click 'Now' option
     if let Ok(now_option) = client.find(Locator::Css("input#publish-date-now")).await {
         now_option.click().await?;
-        println!("🕒 Selected 'Now' publishing option.");
+        println!("Selected 'Now' for publishing.");
     }
-    human_delay(5000, 6000).await; // Wait ~5 seconds
+    human_delay(3000, 5000).await;
 
     // Click 'Schedule' button
     if let Ok(schedule_button) = client
@@ -257,8 +257,9 @@ async fn schedule_episode(client: &Client) -> Result<(), error::CmdError> {
         .await
     {
         schedule_button.click().await?;
-        println!("✅ Clicked Schedule button.");
     }
+    human_delay(6000, 9000).await;
+    println!("🚀 Episode successfully published!");
 
     Ok(())
 }

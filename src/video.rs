@@ -4,7 +4,7 @@ use regex::Regex;
 use reqwest::get;
 use std::env;
 
-pub async fn fetch_new_video() -> Result<String> {
+pub async fn fetch_video() -> Result<String> {
     dotenv().ok();
     let playlist_id = env::var("SERMON_PLAYLIST_ID").expect("SERMON_PLAYLIST_ID not set");
     let playlist_url = format!("https://www.youtube.com/playlist?list={playlist_id}");

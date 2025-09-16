@@ -5,13 +5,13 @@ mod video;
 mod webdriver;
 
 use anyhow::Result;
-use db::{last_seen_video_id, save_video_id};
+use db::{get_last_id, save_id};
 use dotenvy::dotenv;
-use processor::process_video;
+use processor::process;
 use sqlx::SqlitePool;
 use std::env;
 use std::time::Instant;
-use video::fetch_new_video;
+use video::fetch_video;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -22,18 +22,18 @@ async fn main() -> Result<()> {
     let db_url = env::var("DB_URL")?;
     let pool = SqlitePool::connect(&db_url).await?;
 
-    db::init_db(&pool).await?;
+    db::init(&pool).await?;
 
-    let last_seen_id = last_seen_video_id(&pool).await?;
+    let last_seen_id = get_last_id(&pool).await?;
 
-    match fetch_new_video().await {
+    match fetch_video().await {
         Ok(video_id) => {
             if video_id != last_seen_id {
-                if let Err(e) = process_video(&video_id).await {
+                if let Err(e) = process(&video_id).await {
                     eprintln!("❌ Failed to process new video: {e}");
                 } else {
                     let mut transaction = pool.begin().await?;
-                    save_video_id(&mut transaction, &video_id).await?;
+                    save_id(&mut transaction, &video_id).await?;
                     transaction.commit().await?;
                     println!("✅ Updated DB with video ID: {video_id}");
                 }
@@ -44,7 +44,18 @@ async fn main() -> Result<()> {
         Err(e) => eprintln!("❌ Failed to fetch new video ID: {e}"),
     }
 
-    println!("🚀 App ran in: {:?}", timer.elapsed());
+    let duration = timer.elapsed();
+    let total_seconds = duration.as_secs();
+    let minutes = total_seconds / 60;
+    let seconds = total_seconds % 60;
+
+    let formatted = if minutes > 0 {
+        format!("{minutes}min {seconds}sec")
+    } else {
+        format!("{seconds}sec")
+    };
+
+    println!("Finished in {formatted}");
 
     Ok(())
 }

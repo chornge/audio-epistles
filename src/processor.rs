@@ -2,15 +2,15 @@ use anyhow::Result;
 
 use crate::{
     episode::{extract_sermon_chapter, fetch_metadata, trim_audio},
-    webdriver::schedule,
+    webdriver::upload,
 };
 
-pub async fn process_video(video_id: &str) -> Result<()> {
-    publish(video_id).await?;
+pub async fn process(video_id: &str) -> Result<()> {
+    schedule(video_id).await?;
     Ok(())
 }
 
-pub async fn publish(video_id: &str) -> Result<()> {
+pub async fn schedule(video_id: &str) -> Result<()> {
     let (title, desc, video_path, duration) = fetch_metadata(video_id).await?;
     println!("🎬 Title: {title}");
     println!("🎬 Path: {video_path}");
@@ -24,7 +24,7 @@ pub async fn publish(video_id: &str) -> Result<()> {
         println!("✅ Audio saved to {output_audio}");
     }
 
-    schedule(&title).await?;
+    upload(&title).await?;
 
     Ok(())
 }
