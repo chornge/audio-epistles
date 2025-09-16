@@ -71,21 +71,21 @@ A more secure way to store Spotify credentials is to host on Github/GitLab & sto
 
 ## Automation
 
-To use cron, run `crontab -e`
+To use cron, (run `crontab -e` on macOs)
 
-For every hour (on the hour), paste into crontab:
+For every hour (on the hour), use:
 
 ```
 0 * * * * cd audio-epistles && cargo run --release >> cron.log 2>&1
 ```
 
-OR to run Weekdays (M-F) at noon, paste:
+OR to run Weekdays (M-F) at noon, use:
 
 ```
 0 12 * * 1-5 cd audio-epistles && cargo run --release >> cron.log 2>&1
 ```
 
-OR to run Wednesdays at 9:00pm, paste:
+OR to run Wednesdays at 9:00pm, use:
 
 ```
 0 21 * * 3 cd audio-epistles && cargo run --release >> cron.log 2>&1
@@ -110,4 +110,4 @@ MIT
 
 ## Special Thanks
 
-A special shout-out to the authors and contributors of [Schroedinger-Hat](https://github.com/Schroedinger-Hat/youtube-to-spotify), whose work directly inspired this project. Your efforts in building and maintaining youtube-to-spotify make seamless publishing possible. Thank you for your dedication and open-source spirit!
+A special shout-out to the authors and contributors of [Schroedinger-Hat](https://github.com/Schroedinger-Hat/youtube-to-spotify), whose work directly inspired this project. Thank you for your dedication and open-source spirit!
