@@ -67,7 +67,7 @@ AUDIO_FILE=path/to/audio-epistles/assets/audio.mp3
 DB_URL=videos.db
 ```
 
-More secure way to store Spotify credentials is to host on Github/GitLab & store as secrets.
+A more secure way to store Spotify credentials is to host on Github/GitLab & store as secrets.
 
 ## Automation
 
@@ -97,6 +97,12 @@ OR to run Wednesdays at 9:00pm, paste:
 cargo build --release
 cargo run --release
 ```
+
+## Limitations
+
+Untested on Windows & Linux.
+
+Running more than twice every hour may trigger `yt-dlp` OR Spotify's CAPTCHA/Anti-Bot protocols.
 
 ## License
 
