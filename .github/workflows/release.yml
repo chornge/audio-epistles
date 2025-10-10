@@ -18,7 +18,7 @@ jobs:
           rm -rf release
           mkdir release
           VERSION=${GITHUB_REF/refs\/tags\//}
-          echo "RELEASE_NAME=audio-epistles-$VERSION" >> $GITHUB_ENV
+          echo "RELEASE_NAME=$VERSION" >> $GITHUB_ENV
           cargo build --release
 
       - name: Package
@@ -35,7 +35,7 @@ jobs:
 
       - name: Changelog
         run: |
-          # Get the list of commits in the range from the last tag to the current tag
+          # Get all commits from the last tag to this tag
           git fetch --prune --unshallow
           RELEASE_NOTES=$(git log ${GITHUB_REF}^..HEAD --oneline)
           echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
