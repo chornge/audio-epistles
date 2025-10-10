@@ -1,0 +1,24 @@
+services:
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - sonar
+    environment:
+      - SPOTIFY_EMAIL=${SPOTIFY_EMAIL}
+      - SPOTIFY_PASSWORD=${SPOTIFY_PASSWORD}
+      - SERMON_PLAYLIST_ID=${SERMON_PLAYLIST_ID}
+      - AUDIO_FILE=${AUDIO_FILE}
+      - DB_URL=${DB_URL}
+    volumes:
+      - uploaded-db:/app
+    deploy:
+      replicas: 1 # Number of workers - overridden by --scale worker=N
+
+volumes:
+  uploaded-db:
+
+networks:
+  sonar:
+    driver: bridge
