@@ -1,0 +1,13 @@
+.dockerignore
+.DS_Store
+.git/
+.github/
+.gitignore
+assets/
+DESIGN-DOC.excalidraw.png
+docker-compose.yml
+Dockerfile
+LICENSE
+README.md
+target/
+.vscode
