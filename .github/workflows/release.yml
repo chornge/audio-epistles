@@ -49,6 +49,6 @@ jobs:
           tag_name: ${{ github.ref }}
           name: ${{ env.RELEASE_NAME }}
           body: ${{ env.RELEASE_NOTES }}
-          files: release/*.zip
+          files: release/audio-epistles.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
