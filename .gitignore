@@ -1,8 +1,9 @@
+.DS_Store
 .env
-.env.*
-*.db
+assets/
 *.log
 *.mp3
 *.mp4
-/target
+target/
+*.db
 .vscode
