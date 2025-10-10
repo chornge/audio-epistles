@@ -22,11 +22,21 @@ jobs:
           mkdir release
           cp target/release/audio_epistles release/
 
+      - name: Changelog
+        run: |
+          # Get the list of commits in the range from the last tag to the current tag
+          git fetch --prune --unshallow
+          release_notes=$(git log ${GITHUB_REF}^..HEAD --oneline)
+          echo "release_notes<<EOF" >> $GITHUB_ENV
+          echo "$release_notes" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
       - name: Release
         if: success() # previous steps were successful
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref }}
           files: release/*
+          body: ${{ env.release_notes }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
