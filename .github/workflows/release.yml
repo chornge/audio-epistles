@@ -21,6 +21,18 @@ jobs:
           echo "RELEASE_NAME=audio-epistles-$VERSION" >> $GITHUB_ENV
           cargo build --release
 
+      - name: Package
+        run: |
+          zip -r "release/audio-epistles.zip" . \
+          -x ".env" \
+            ".git/*" \
+            ".github/*" \
+            ".DS_Store" \
+            ".gitignore" \
+            "assets/*" \
+            "target/*" \
+            "release/*"
+
       - name: Changelog
         run: |
           # Get the list of commits in the range from the last tag to the current tag
@@ -37,6 +49,6 @@ jobs:
           tag_name: ${{ github.ref }}
           name: ${{ env.RELEASE_NAME }}
           body: ${{ env.RELEASE_NOTES }}
-          files: release/*
+          files: release/*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
