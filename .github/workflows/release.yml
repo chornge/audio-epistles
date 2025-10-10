@@ -20,6 +20,7 @@ jobs:
         run: |
           rm -rf release
           mkdir release
+          chmod +x target/release/audio_epistles
           cp target/release/audio_epistles release/
 
       - name: Changelog
@@ -36,7 +37,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref }}
-          files: release/*
+          name: audio_epistles-${{ github.ref }}
           body: ${{ env.release_notes }}
+          files: release/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
