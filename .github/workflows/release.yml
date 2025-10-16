@@ -44,7 +44,7 @@ jobs:
 
       - name: Release
         if: success() # previous steps were successful
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref }}
           name: ${{ env.RELEASE_NAME }}
