@@ -1,18 +1,45 @@
+//! Web automation module for Spotify for Podcasters.
+//!
+//! This module uses Selenium WebDriver (via chromedriver and fantoccini) to
+//! automate the process of uploading podcast episodes to Spotify for Podcasters.
+//! It handles authentication, form filling, and saving episodes as drafts.
+
+use anyhow::{Context, Result};
 use dotenvy::dotenv;
 use fantoccini::key::Key;
-use fantoccini::{error, Client, Locator};
+use fantoccini::{Client, Locator};
 use rand::{rng, Rng};
 use std::env;
 use std::process::{Child, Command, Stdio};
 use tokio::time::{sleep, Duration};
+use tracing::{debug, info};
 
-/// Start chromedriver process
-fn init() -> std::io::Result<Child> {
-    Command::new("chromedriver")
-        .arg("--port=64175")
-        .stdout(Stdio::null())
-        .stderr(Stdio::null())
-        .spawn()
+/// Guard struct that ensures chromedriver process is properly cleaned up
+/// even if the upload fails partway through
+struct ChromeDriverGuard {
+    process: Child,
+}
+
+impl ChromeDriverGuard {
+    /// Start chromedriver process
+    fn new() -> std::io::Result<Self> {
+        let process = Command::new("chromedriver")
+            .arg("--port=64175")
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .spawn()?;
+
+        Ok(ChromeDriverGuard { process })
+    }
+}
+
+impl Drop for ChromeDriverGuard {
+    fn drop(&mut self) {
+        // Attempt to kill the process
+        let _ = self.process.kill();
+        // CRITICAL: wait() to reap the process and avoid zombies
+        let _ = self.process.wait();
+    }
 }
 
 /// Add randomized human-like delay
@@ -22,24 +49,64 @@ async fn human_delay(min_ms: u64, max_ms: u64) {
     sleep(Duration::from_millis(delay_ms)).await;
 }
 
-/// Upload episode to Spotify/Anchor.fm
+/// Uploads a podcast episode to Spotify for Podcasters.
+///
+/// This function automates the complete workflow of uploading an audio file
+/// to Spotify for Podcasters:
+/// 1. Starts chromedriver
+/// 2. Navigates to Spotify for Podcasters and logs in
+/// 3. Delegates to `draft_episode` to upload the audio and fill in episode details
+/// 4. Saves the episode as a draft
+/// 5. Cleans up by closing the browser and killing chromedriver
+///
+/// The function uses randomized delays between actions to simulate human behavior
+/// and avoid bot detection. Authentication credentials are read from environment
+/// variables `SPOTIFY_EMAIL` and `SPOTIFY_PASSWORD`.
+///
+/// # Arguments
+///
+/// * `title` - The episode title to use when creating the draft
+///
+/// # Returns
+///
+/// Returns `Ok(())` on success.
+///
+/// # Errors
+///
+/// Returns an error if:
+/// - chromedriver fails to start
+/// - Required environment variables are not set
+/// - WebDriver connection fails
+/// - Any web element cannot be found or interacted with
+/// - Login fails or authentication is rejected
+/// - Episode upload or save fails
+///
+/// # Example
+///
+/// ```no_run
+/// # tokio_test::block_on(async {
+/// // Ensure SPOTIFY_EMAIL, SPOTIFY_PASSWORD, and AUDIO_FILE are set
+/// audio_epistles::webdriver::upload("Sunday Service | Jan 1, 2024").await.unwrap();
+/// # })
+/// ```
 #[allow(deprecated)]
 #[allow(unused_variables)]
-#[allow(clippy::zombie_processes)]
-pub async fn upload(title: &str) -> Result<(), error::CmdError> {
+pub async fn upload(title: &str) -> Result<()> {
     dotenv().ok();
 
-    let mut webdriver = init().expect("Failed to start chromedriver");
+    // Start chromedriver with proper cleanup guard
+    let _webdriver_guard =
+        ChromeDriverGuard::new().context("Failed to start chromedriver")?;
 
-    // Wait for chromedriver to be ready
+    // Wait for chromedriver to be ready with a reasonable startup time
     tokio::time::sleep(std::time::Duration::from_secs(5)).await;
 
-    let email = env::var("SPOTIFY_EMAIL").expect("SPOTIFY_EMAIL must be set");
-    let password = env::var("SPOTIFY_PASSWORD").expect("SPOTIFY_PASSWORD must be set");
+    let email = env::var("SPOTIFY_EMAIL").context("SPOTIFY_EMAIL must be set")?;
+    let password = env::var("SPOTIFY_PASSWORD").context("SPOTIFY_PASSWORD must be set")?;
 
     let client = Client::new("http://localhost:64175")
         .await
-        .expect("Failed to connect to WebDriver");
+        .context("Failed to connect to WebDriver")?;
 
     client.goto("https://podcasters.spotify.com/").await?;
     human_delay(6000, 9000).await;
@@ -110,19 +177,59 @@ pub async fn upload(title: &str) -> Result<(), error::CmdError> {
     login_btn.click().await?;
     human_delay(4000, 6000).await;
 
-    println!("✅ Spotify login successful!");
+    info!("Spotify login successful");
 
     draft_episode(title, &client).await?;
 
     client.close().await?;
-    webdriver.kill().expect("Failed to terminate chromedriver");
+    // No need to manually kill webdriver - ChromeDriverGuard's Drop will handle it
 
     Ok(())
 }
 
-/// Handles saving episode as draft on Spotify/Anchor.fm
+/// Creates a draft episode on Spotify for Podcasters.
+///
+/// This function handles the episode creation workflow after authentication:
+/// 1. Navigates to the episode upload wizard
+/// 2. Uploads the audio file specified in the `AUDIO_FILE` environment variable
+/// 3. Fills in the episode title
+/// 4. Sets a default description
+/// 5. Saves the episode as a draft
+///
+/// The audio file path must be an absolute path and is read from the `AUDIO_FILE`
+/// environment variable. The function uses character-by-character input for the
+/// description to work around Spotify's Slate.js rich text editor.
+///
+/// # Arguments
+///
+/// * `title` - The episode title to set
+/// * `client` - A reference to the authenticated WebDriver client
+///
+/// # Returns
+///
+/// Returns `Ok(())` on success.
+///
+/// # Errors
+///
+/// Returns an error if:
+/// - The `AUDIO_FILE` environment variable is not set
+/// - Navigation to the episode wizard fails
+/// - Audio file upload fails or times out
+/// - Any form field cannot be found or filled
+/// - Saving the draft fails
+///
+/// # Example
+///
+/// ```no_run
+/// # use fantoccini::Client;
+/// # tokio_test::block_on(async {
+/// let client = Client::new("http://localhost:64175").await.unwrap();
+/// // ... authenticate first ...
+/// audio_epistles::webdriver::draft_episode("My Episode", &client).await.unwrap();
+/// # })
+/// ```
 #[allow(deprecated)]
-pub async fn draft_episode(title: &str, client: &Client) -> Result<(), error::CmdError> {
+pub async fn draft_episode(title: &str, client: &Client) -> Result<()> {
     dotenv().ok();
 
     // Go to episode upload wizard (logged in already)
@@ -143,7 +250,7 @@ pub async fn draft_episode(title: &str, client: &Client) -> Result<(), error::Cm
     }
     human_delay(2200, 3000).await;
 
-    let audio_file_path = env::var("AUDIO_FILE").expect("AUDIO_FILE must be set");
+    let audio_file_path = env::var("AUDIO_FILE").context("AUDIO_FILE must be set")?;
     client
         .find(Locator::Css("input[type='file']"))
         .await?
@@ -151,7 +258,7 @@ pub async fn draft_episode(title: &str, client: &Client) -> Result<(), error::Cm
         .await?;
 
     human_delay(55800, 62400).await;
-    println!("Audio uploaded.");
+    debug!("Audio uploaded");
 
     // Set title
     client
@@ -160,7 +267,7 @@ pub async fn draft_episode(title: &str, client: &Client) -> Result<(), error::Cm
         .send_keys(title)
         .await?;
     human_delay(1000, 2000).await;
-    println!("Title entered.");
+    debug!("Title entered");
 
     let description = "Join us online for our Sunday services @ 9AM & 11AM.";
     let desc_field = client
@@ -196,7 +303,7 @@ pub async fn draft_episode(title: &str, client: &Client) -> Result<(), error::Cm
         desc_field.send_keys(&c.to_string()).await?;
         human_delay(50, 120).await;
     }
-    println!("Description entered.");
+    debug!("Description entered");
     human_delay(1000, 2000).await;
 
     // schedule_episode(&client).await?;
@@ -223,7 +330,7 @@ pub async fn draft_episode(title: &str, client: &Client) -> Result<(), error::Cm
     }
 
     human_delay(1200, 2000).await;
-    println!("🕒 Episode successfully saved as draft.");
+    info!("Episode successfully saved as draft");
 
     // Allow Spotify UI to settle
     human_delay(3000, 5000).await;
@@ -233,21 +340,21 @@ pub async fn draft_episode(title: &str, client: &Client) -> Result<(), error::Cm
 
 /// Handles publishing episode to Spotify/Anchor.fm
 #[allow(dead_code)]
-async fn schedule_episode(client: &Client) -> Result<(), error::CmdError> {
+async fn schedule_episode(client: &Client) -> Result<()> {
     // Click 'Next' button
     if let Ok(next_button) = client
         .find(Locator::Css("button[form='details-form'][type='submit']"))
         .await
     {
         next_button.click().await?;
-        println!("Clicked 'Next'.");
+        debug!("Clicked 'Next'");
     }
     human_delay(19000, 22000).await; // Wait for UI to load
 
     // Click 'Now' option
     if let Ok(now_option) = client.find(Locator::Css("input#publish-date-now")).await {
         now_option.click().await?;
-        println!("Selected 'Now' for publishing.");
+        debug!("Selected 'Now' for publishing");
     }
     human_delay(3000, 5000).await;
 
@@ -259,7 +366,7 @@ async fn schedule_episode(client: &Client) -> Result<(), error::CmdError> {
         schedule_button.click().await?;
     }
     human_delay(6000, 9000).await;
-    println!("🚀 Episode successfully published!");
+    info!("Episode successfully published");
 
     Ok(())
 }

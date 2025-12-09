@@ -36,7 +36,8 @@ FROM debian:bookworm-slim AS runner
 
 WORKDIR /app
 
-COPY --from=builder /app/.env .env
+# Note: .env should be passed at runtime via docker-compose or environment variables
+# Do NOT copy .env into the image - it embeds credentials in image layers
 COPY --from=builder /app/init-db.sh .
 COPY --from=builder /usr/bin/ffmpeg /usr/bin/ffmpeg
 COPY --from=builder /usr/bin/python3 /usr/bin/python3

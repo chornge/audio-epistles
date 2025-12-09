@@ -7,3 +7,4 @@ assets/
 target/
 *.db
 .vscode
+.claude

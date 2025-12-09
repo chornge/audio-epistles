@@ -1,6 +1,6 @@
 [package]
 name = "audio_epistles"
-version = "2.2.6"
+version = "2.3.0"
 edition = "2021"
 license = "MIT"
 authors = [
@@ -17,4 +17,6 @@ regex = "1.11.3"
 reqwest = { version = "0.12.23", features = ["json"] }
 sqlx = { version = "0.8.6", features = ["sqlite", "runtime-tokio-native-tls"] }
 tokio = { version = "1.47.1", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 youtube_dl = "0.10.0"
