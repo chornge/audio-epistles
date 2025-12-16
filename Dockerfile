@@ -1,15 +1,4 @@
-# Stage 1: Install
-FROM node:18-slim AS installer
-
-WORKDIR /app
-
-# Force Puppeteer to download Chromium
-ENV PUPPETEER_SKIP_DOWNLOAD=false \
-    PUPPETEER_CACHE_DIR=/app/.cache/puppeteer
-
-RUN npm install puppeteer
-
-# Stage 2: Build
+# Stage 1: Build
 FROM rust:1.85.1-slim-bookworm AS builder
 
 WORKDIR /app
@@ -31,7 +20,7 @@ RUN apt-get update && apt-get install -y \
     && cargo build --release \
     && rm -rf /var/lib/apt/lists/*
 
-# Stage 3: Run
+# Stage 2: Run
 FROM debian:bookworm-slim AS runner
 
 WORKDIR /app
@@ -39,30 +28,17 @@ WORKDIR /app
 # Note: .env should be passed at runtime via docker-compose or environment variables
 # Do NOT copy .env into the image - it embeds credentials in image layers
 COPY --from=builder /app/init-db.sh .
-COPY --from=builder /usr/bin/ffmpeg /usr/bin/ffmpeg
-COPY --from=builder /usr/bin/python3 /usr/bin/python3
 COPY --from=builder /app/videos.db ./videos.db.template
 COPY --from=builder /usr/local/bin/yt-dlp /usr/local/bin/yt-dlp
 COPY --from=builder /app/target/release/audio_epistles ./audio_epistles
 
-# Install Chrome
+# Install Chrome, ChromeDriver, ffmpeg, and dependencies
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
     unzip \
     ca-certificates \
-    && wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
-    && apt-get update && apt-get install -y google-chrome-stable
-
-# Install ChromeDriver
-RUN wget -q -P /tmp/ https://storage.googleapis.com/chrome-for-testing-public/141.0.7390.76/linux64/chromedriver-linux64.zip \
-    && unzip /tmp/chromedriver-linux64.zip -d /usr/local/bin/chromedriver \
-    && chmod +x /usr/local/bin/chromedriver \
-    && rm -rf /tmp/chromedriver-linux64.zip
-
-# Additional dependencies for Chromium & related tools
-RUN apt-get install -y \
+    ffmpeg \
     libasound2 \
     libcups2 \
     libdbus-1-3 \
@@ -79,13 +55,20 @@ RUN apt-get install -y \
     libxshmfence1 \
     libxtst6 \
     xdg-utils \
-    && rm -rf /var/lib/apt/lists/*
-
-# Setup Puppeteer
-COPY --from=installer /app/.cache/puppeteer /usr/bin/.local-chromium
-
-# Create symlink to ChromeDriver and set permissions
-RUN ln -s /usr/bin/.local-chromium/chrome-linux/chromedriver /usr/bin/chromedriver \
+    # Modern apt key management (apt-key is deprecated)
+    && mkdir -p /etc/apt/keyrings \
+    && wget -q -O /etc/apt/keyrings/google-chrome.asc https://dl.google.com/linux/linux_signing_key.pub \
+    && echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.asc] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
+    && apt-get update && apt-get install -y google-chrome-stable \
+    # Install matching ChromeDriver dynamically based on installed Chrome version
+    && CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+\.\d+') \
+    && echo "Chrome version: $CHROME_VERSION" \
+    && wget -q -O /tmp/chromedriver.zip "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip" \
+    && unzip /tmp/chromedriver.zip -d /tmp/ \
+    && mv /tmp/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver \
+    && chmod +x /usr/local/bin/chromedriver \
+    && rm -rf /tmp/chromedriver.zip /tmp/chromedriver-linux64 \
+    && rm -rf /var/lib/apt/lists/* \
     && chmod +x init-db.sh
 
 ENTRYPOINT [ "./init-db.sh" ]
