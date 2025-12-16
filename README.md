@@ -1,6 +1,6 @@
 # Audio Epistles
 
-![Build Status](https://github.com/chornge/audio-epistles/actions/workflows/build.yml/badge.svg?branch=develop)
+![Build Status](https://github.com/chornge/audio-epistles/actions/workflows/build.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Version](https://img.shields.io/badge/version-2.3.0-green.svg)
 
