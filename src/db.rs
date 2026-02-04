@@ -113,11 +113,9 @@ async fn migrate_to_v1(pool: &SqlitePool) -> Result<()> {
     .await?;
 
     // Create index on video_id for faster lookups
-    sqlx::query(
-        "CREATE INDEX IF NOT EXISTS idx_uploads_video_id ON uploads(video_id)",
-    )
-    .execute(&mut *tx)
-    .await?;
+    sqlx::query("CREATE INDEX IF NOT EXISTS idx_uploads_video_id ON uploads(video_id)")
+        .execute(&mut *tx)
+        .await?;
 
     // Migrate data from old table if it exists
     if old_table_exists {
@@ -135,9 +133,7 @@ async fn migrate_to_v1(pool: &SqlitePool) -> Result<()> {
         }
 
         // Drop the old table
-        sqlx::query("DROP TABLE uploaded")
-            .execute(&mut *tx)
-            .await?;
+        sqlx::query("DROP TABLE uploaded").execute(&mut *tx).await?;
     }
 
     // Set schema version
@@ -419,9 +415,7 @@ mod tests {
 
         for video_id in &video_ids {
             let mut tx = pool.begin().await.expect("Failed to begin transaction");
-            save_id(&mut tx, video_id)
-                .await
-                .expect("Failed to save ID");
+            save_id(&mut tx, video_id).await.expect("Failed to save ID");
             tx.commit().await.expect("Failed to commit transaction");
         }
 
@@ -482,9 +476,7 @@ mod tests {
         let video_ids = vec!["video1", "video2", "video3", "video4", "video5"];
         for video_id in &video_ids {
             let mut tx = pool.begin().await.expect("Failed to begin transaction");
-            save_id(&mut tx, video_id)
-                .await
-                .expect("Failed to save ID");
+            save_id(&mut tx, video_id).await.expect("Failed to save ID");
             tx.commit().await.expect("Failed to commit transaction");
         }
 
