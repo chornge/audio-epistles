@@ -25,9 +25,9 @@ test-verbose:
 check:
 	cargo check
 
-# Run clippy linter
+# Run clippy linter (matches CI configuration)
 clippy:
-	cargo clippy -- -D warnings
+	cargo clippy --all-targets --all-features -- -D warnings -A dead_code
 
 # Format code
 fmt:
@@ -92,8 +92,8 @@ docker-stop:
 docker-logs:
 	docker-compose logs -f
 
-# Full CI check (what CI runs)
-ci: fmt-check clippy test
+# Full CI check (mirrors .github/workflows/build.yml)
+ci: fmt-check clippy release test
 	@echo "CI checks passed!"
 
 # Pre-commit checks

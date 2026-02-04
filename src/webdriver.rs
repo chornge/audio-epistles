@@ -95,8 +95,7 @@ pub async fn upload(title: &str) -> Result<()> {
     dotenv().ok();
 
     // Start chromedriver with proper cleanup guard
-    let _webdriver_guard =
-        ChromeDriverGuard::new().context("Failed to start chromedriver")?;
+    let _webdriver_guard = ChromeDriverGuard::new().context("Failed to start chromedriver")?;
 
     // Wait for chromedriver to be ready with a reasonable startup time
     tokio::time::sleep(std::time::Duration::from_secs(5)).await;

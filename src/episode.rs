@@ -119,12 +119,7 @@ pub async fn fetch_metadata(video_id: &str) -> Result<(String, String, String, u
             let path_str = final_video_path.to_string_lossy().to_string();
             info!(path = %path_str, "Downloaded video successfully");
 
-            Ok((
-                title,
-                desc,
-                path_str,
-                duration,
-            ))
+            Ok((title, desc, path_str, duration))
         }
         _ => Err(anyhow!("Expected single video, got playlist.")),
     }

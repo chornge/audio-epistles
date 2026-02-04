@@ -2,7 +2,7 @@
 
 ![Build Status](https://github.com/chornge/audio-epistles/actions/workflows/build.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Version](https://img.shields.io/badge/version-2.3.0-green.svg)
+![Version](https://img.shields.io/badge/version-2.4.0-green.svg)
 
 An automated service for fetching the latest video from a YouTube playlist, extracting its details, and publishing the audio to Spotify/Anchor.fm. The service is designed to run periodically (e.g., every hour via cron), ensuring new podcasts are published reliably.
 
@@ -328,8 +328,6 @@ See [CHANGELOG.md](./CHANGELOG.md) for version history and release notes.
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
-
-Copyright (c) 2024 Chornge
 
 ## Authors
 
