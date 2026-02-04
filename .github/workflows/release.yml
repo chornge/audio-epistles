@@ -33,11 +33,28 @@ jobs:
             "target/*" \
             "release/*"
 
-      - name: Changelog
+      - name: Extract Changelog
         run: |
-          # Get all commits from the last tag to this tag
-          git fetch --prune --unshallow
-          RELEASE_NOTES=$(git log ${GITHUB_REF}^..HEAD --oneline)
+          # Extract version from tag (v2.4.0 -> 2.4.0)
+          VERSION=${GITHUB_REF/refs\/tags\/v/}
+
+          # Extract changelog section for this version
+          # Captures content between ## [X.Y.Z] and the next ## [ or EOF
+          RELEASE_NOTES=$(awk -v ver="$VERSION" '
+            /^## \[/ {
+              if (found) exit
+              if ($0 ~ "\\[" ver "\\]") found=1
+              next
+            }
+            found { print }
+          ' CHANGELOG.md)
+
+          # Fallback to git log if no changelog entry found
+          if [ -z "$RELEASE_NOTES" ]; then
+            git fetch --prune --unshallow 2>/dev/null || true
+            RELEASE_NOTES=$(git log ${GITHUB_REF}^..HEAD --oneline 2>/dev/null || echo "Release $VERSION")
+          fi
+
           echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
           echo "$RELEASE_NOTES" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
