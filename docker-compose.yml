@@ -11,10 +11,20 @@ services:
       - SERMON_PLAYLIST_ID=${SERMON_PLAYLIST_ID}
       - AUDIO_FILE=${AUDIO_FILE}
       - DB_URL=${DB_URL}
+      - RUST_LOG=${RUST_LOG:-info}
     volumes:
       - uploaded-db:/app
     deploy:
-      replicas: 1 # Number of workers - overridden by --scale worker=N
+      replicas: 1
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    security_opt:
+      - no-new-privileges:true
 
 volumes:
   uploaded-db:
