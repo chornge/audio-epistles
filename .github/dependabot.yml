@@ -3,4 +3,13 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily" # Monday - Friday
+      interval: "daily"
+
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      rust-dependencies:
+        patterns:
+          - "*"
