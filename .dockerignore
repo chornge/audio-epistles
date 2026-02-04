@@ -1,13 +1,30 @@
-.dockerignore
-.DS_Store
+# Environment and secrets - NEVER include in build context
+.env
+.env.*
+!.env.example
+
+# Build artifacts
+target/
+*.db
+
+# Git
 .git/
 .github/
 .gitignore
-assets/
-DESIGN-DOC.excalidraw.png
+
+# Docker (prevent recursive inclusion)
+.dockerignore
 docker-compose.yml
 Dockerfile
+
+# Documentation and assets (not needed in image)
+*.md
+!init-db.sh
+assets/
+DESIGN-DOC.excalidraw.png
 LICENSE
-README.md
-target/
-.vscode
+
+# IDE and OS
+.vscode/
+.DS_Store
+*.log
